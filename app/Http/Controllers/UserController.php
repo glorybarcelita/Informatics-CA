@@ -60,9 +60,9 @@ class UserController extends Controller
         'role' => 'required',
         'first_name' => 'required',
         'last_name' => 'required',
-        'school_index' => 'required',
+        'school_index' => 'required|numerics',
         'birthday' => 'required|date',
-        'contact_no' => 'required',
+        'contact_no' => 'required|numerics',
         'address' => 'required',
         'email' => 'required|email',
       ]);

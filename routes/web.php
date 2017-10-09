@@ -23,6 +23,9 @@ Route::group(['middleware'=>'auth'], function(){
   Route::post('/user/edit', ['uses'=>'UserController@edit']);
   Route::post('/user/update', ['uses'=>'UserController@update']);
  
+  Route::get('course/list', ['uses'=>'CourseController@index']);
+  Route::post('course/store', ['uses'=>'CourseController@store']);
+  Route::post('course/edit', ['uses'=>'CourseController@edit']);
 });
 
 Auth::routes();
