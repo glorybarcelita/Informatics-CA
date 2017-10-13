@@ -22,4 +22,9 @@ class CourseController extends Controller
       $data = new Course;
       return $data->courseEdit($request->id);
     }
+
+    public function update(Request $request){
+      $data = new Course;
+      return $data->courseUpdate($request->id, $request->status, $request->course_name, $request->description);
+    }
 }

@@ -25,7 +25,14 @@
       <tbody>
         @foreach($users as $user)
           <tr>
-            <td><button class="btn btn-success btn-sm" id="{{ $user->id }}" onclick="editUser(this.id)">Edit</button></td>
+            <td>
+              <button class="btn btn-success btn-sm" id="{{ $user->id }}" onclick="editUser(this.id)">
+                  Edit
+              </button>
+              <button class="btn btn-danger btn-sm" id="{{ $user->id }}" onclick="resetUserPass(this.id)">
+                Reset Password
+              </button>
+            </td>
             <td>{{ $user->first_name.' '.$user->middle_name.' '.$user->last_name }}</td>
             <td>{{ $user->role_name}}</td>
             <td>
@@ -78,6 +85,30 @@
   </div>
 </div>
 
+{{-- user password reset --}}
+<div class="modal fade" id="mod-reset-password" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form method="POST" action="{{ url('/user/reset-password/post') }}">
+        {{ csrf_field() }}
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">User reset password?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input class="form-control" style="display: none" name="user_id_reset_pass">
+          <div id="reset-pass-container-message"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Reset Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 @endsection
 
 @section('script')
@@ -127,6 +158,30 @@
       $('.form-control').removeClass('is-invalid');
       $('.error-msg').empty();
       $('.col-form-label').removeClass('text-danger');
+    }
+
+    function resetUserPass(id){
+      $.ajax({
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        url: "{{ url('user/reset-password') }}",
+        method:"POST",
+        data:{
+          id: id, 
+        }, 
+        success: function(result){
+          $('#mod-reset-password').modal('show');
+          $('[name=user_id_reset_pass]').val(id);
+
+
+          $('#reset-pass-container-message').html('Are you sure you want to reset the password of <strong>'+result.first_name+' '+result.last_name+'?</strong>');
+
+          /* show console logs */
+          console.log(result);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+          alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+        } 
+      });       
     }
   </script>
 @endsection

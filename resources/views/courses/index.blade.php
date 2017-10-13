@@ -1,11 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-@if (session('message'))
-    <div class="alert alert-success">
-        {{ session('message') }}
-    </div>
-@endif
+<div class="alert alert-success alert-dismissible fade show" role="alert" id="container-message" style="display: none">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <h4 class="alert-heading">Well done!</h4>
+  <p id="submit-message"></p>
+</div>
 
 <div class="card p-4">
   <div class="card-body">
@@ -30,7 +32,7 @@
             <td>{{ $course->course_name }}</td>
             <td>{{ $course->overview }}</td>
             <td>
-              @if($course->activated=='false')
+              @if($course->status=='false')
                 <label class="text-danger">Inactive</label>
               @else
                 <label class="text-primary">Active</label>
@@ -47,6 +49,7 @@
 <div class="modal fade" id="mod-add-course" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
+      <form id="add-record">
         <input type="text" name="user_id" style="display:none" value="{{ old('user_id') }}">
         <div class="modal-header">
           <h5 class="modal-title" id="editUserModalLabel">Course Details</h5>
@@ -61,6 +64,7 @@
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary" id="btn-save">Save Course</button>
         </div>
+      </form>
     </div>
   </div>
 </div>  
@@ -69,6 +73,7 @@
 <div class="modal fade" id="mod-update-course" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
+      <form id="update-record">
         <input type="text" name="user_id" style="display:none" value="{{ old('user_id') }}">
         <div class="modal-header">
           <h5 class="modal-title" id="editUserModalLabel">Update Course Details</h5>
@@ -90,8 +95,9 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="btn-save">Save Changes</button>
+          <button type="button" class="btn btn-primary" id="btn-update">Save Changes</button>
         </div>
+      </form>
     </div>
   </div>
 </div>
@@ -99,28 +105,42 @@
 
 @section('script')
 <script type="text/javascript">
-  $( "#btn-save" ).click(function() {
+  $("#btn-save").click(function() {
     $.ajax({
       headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
       url: "{{ url('course/store') }}",
       method:"POST",
       data:{
-        name: $('[name=course_name]').val(),
-        description: $('[name=course_description]').val(), 
+        name: $('#add-record [name=course_name]').val(),
+        description: $('#add-record [name=course_description]').val(), 
       }, 
       success: function(result){
         /* show console logs */
         console.log(result);
 
+        /* display success message */
+        $('#container-message').show('alert');
+        $('#submit-message').html(result.message);
+
+        /* close modal */
         $('#mod-add-course').modal('hide');
+
+        /* clear value to inputs */
+        $('#add-record [name=status]').val('');
+        $('#add-record [name=course_name]').val('');
+        $('#add-record [name=course_description]').val('');
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) { 
+        /* display error */
         alert("Status: " + textStatus); alert("Error: " + errorThrown); 
       } 
     });
   });
 
+  var course_id = 0;
+
   function editCourse(id){
+    course_id = id;
     $.ajax({
       headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
       url: "{{ url('course/edit') }}",
@@ -133,9 +153,9 @@
         $('#mod-update-course').modal('show');
         
         /* pass value to inputs */
-        $('[name=status').val(result.status);
-        $('[name=course_name').val(result.course_name);
-        $('[name=course_description').val(result.overview);
+        $('#update-record [name=status]').val(result.status);
+        $('#update-record [name=course_name]').val(result.course_name);
+        $('#update-record [name=course_description]').val(result.overview);
 
         /* show console logs */
         console.log(result);
@@ -145,5 +165,38 @@
       } 
     });
   }
+  
+  $("#btn-update").click(function() {
+    $.ajax({
+      headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+      url: "{{ url('course/update') }}",
+      method:"POST",
+      data:{
+        id: course_id, 
+        status: $('#update-record [name=status]').val(), 
+        course_name: $('#update-record [name=course_name]').val(), 
+        description: $('#update-record [name=course_description]').val(), 
+      }, 
+      success: function(result){
+        /* show console logs */
+        console.log(result);
+
+        /* close update modal */
+        $('#mod-update-course').modal('hide');
+        
+        /* clear value to inputs */
+        $('#update-record [name=status]').val('');
+        $('#update-record [name=course_name]').val('');
+        $('#update-record [name=course_description]').val('');
+
+        /* display success message */
+        $('#container-message').show('alert');
+        $('#submit-message').html(result.message);
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) { 
+        alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+      } 
+    });
+  });
 </script>
 @endsection

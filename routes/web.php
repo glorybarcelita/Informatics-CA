@@ -22,10 +22,18 @@ Route::group(['middleware'=>'auth'], function(){
   Route::get('/user/list', ['uses'=>'UserController@index']);
   Route::post('/user/edit', ['uses'=>'UserController@edit']);
   Route::post('/user/update', ['uses'=>'UserController@update']);
+  Route::get('/select', ['uses'=>'UserController@select']);
+  Route::get('/change-password', ['uses'=>'UserController@changepassword']);
+  Route::post('/user/change-password', ['uses'=>'UserController@userChangePassword']);
+  Route::post('/user/reset-password', ['uses'=>'UserController@resetUserPasswordGetUserDetails']);
+  Route::post('/user/reset-password/post', ['uses'=>'UserController@resetUserPasswordPost']);
  
   Route::get('course/list', ['uses'=>'CourseController@index']);
   Route::post('course/store', ['uses'=>'CourseController@store']);
   Route::post('course/edit', ['uses'=>'CourseController@edit']);
+  Route::post('course/update', ['uses'=>'CourseController@update']);
+  Route::get('course/select', ['uses'=>'CourseController@select']);
+
 });
 
 Auth::routes();

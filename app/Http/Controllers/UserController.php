@@ -18,6 +18,10 @@ class UserController extends Controller
       return view('user.index', ['users'=>$data, 'roles'=>$roles]);
     }
 
+    public function changepassword(){
+      return view('user.change_password');
+    }
+
     public function register(){
       $roles = Role::all();
 
@@ -29,9 +33,9 @@ class UserController extends Controller
         'role' => 'required',
         'first_name' => 'required',
         'last_name' => 'required',
-        'school_index' => 'required|unique:users',
+        'school_index' => 'required|unique:users|numeric',
         'birthday' => 'required|date',
-        'contact_no' => 'required',
+        'contact_no' => 'required|numeric',
         'address' => 'required',
         'email' => 'required|unique:users|email',
       ]);
@@ -60,9 +64,9 @@ class UserController extends Controller
         'role' => 'required',
         'first_name' => 'required',
         'last_name' => 'required',
-        'school_index' => 'required|numerics',
+        'school_index' => 'required|numeric',
         'birthday' => 'required|date',
-        'contact_no' => 'required|numerics',
+        'contact_no' => 'required|numeric',
         'address' => 'required',
         'email' => 'required|email',
       ]);
@@ -81,5 +85,26 @@ class UserController extends Controller
         $request->status,
         $request->user_id
       );
+    }
+
+    public function userChangePassword(Request $request){
+      $request->validate([
+        'curr_password' => 'required',
+        'password' => 'required|confirmed',
+        'password_confirmation' => 'required',
+      ]);
+
+      $data = new User;
+      return $data->userChangePassword($request->curr_password, $request->password);
+    }
+
+    public function resetUserPasswordGetUserDetails(Request $request){
+      $data = new User;
+      return $data->resetPasswordGetUserDetails($request->id);
+    }
+
+    public function resetUserPasswordPost(Request $request){
+      $data = new User;
+      return $data->resetPassword($request->user_id_reset_pass);
     }
 }
