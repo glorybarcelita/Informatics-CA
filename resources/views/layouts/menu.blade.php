@@ -15,7 +15,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="{{ url('course/list') }}">Courses <span class="sr-only">(current)</span></a>
-                    <a class="dropdown-item" href="{{ url('course-terms/list') }}">Course Terms <span class="sr-only">(current)</span></a>
+                    <a class="dropdown-item" href="{{ url('subject/list') }}">Subjects <span class="sr-only">(current)</span></a>
                     <a class="dropdown-item" href="{{ url('user/list') }}">Users <span class="sr-only">(current)</span></a>
                 </div>                
             </li>
