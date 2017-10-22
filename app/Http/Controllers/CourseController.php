@@ -14,6 +14,11 @@ class CourseController extends Controller
     }
 
     public function store(Request $request){
+       $request->validate([
+        'name' => 'required',
+        'description' => 'required',
+      ]);
+
       $data = new Course;
       return $data->courseStore($request->name, $request->description);
     }

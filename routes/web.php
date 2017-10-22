@@ -35,8 +35,10 @@ Route::group(['middleware'=>'auth'], function(){
   Route::get('course/select', ['uses'=>'CourseController@select']);
 
   Route::get('subject/list', ['uses'=>'SubjectController@index']);
+  Route::get('subject/select', ['uses'=>'SubjectController@select']);
   Route::post('subject/store', ['uses'=>'SubjectController@store']);
-
+  Route::get('subject/edit', ['uses'=>'SubjectController@edit']);
+  Route::post('subject/update', ['uses'=>'SubjectController@update']);
 });
 
 Auth::routes();

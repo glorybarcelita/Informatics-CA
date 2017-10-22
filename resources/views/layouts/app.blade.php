@@ -12,12 +12,14 @@
 
     <!-- Styles -->
     <link href="{{ asset('vendor/bootstrap/dist/css/bootstrap.css') }}" rel="stylesheet">
+
+    @yield('css')
 </head>
 <body>
     <div class="container mb-4">
         @include('layouts.menu');
     </div>
-    <div class="container" style="margin-top: 80px">
+    <div class="container" style="margin-top: 80px; margin-bottom: 50px">
         @yield('content')
     </div>
 
