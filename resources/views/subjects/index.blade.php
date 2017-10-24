@@ -17,6 +17,7 @@
 
 <div class="form-group">
   <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#mod-add">Register New Subject</button>
+  <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#mod-syllabus">Syllabus</button>
 </div>
 
 <div class="card">
@@ -132,7 +133,34 @@
           </button>
         </div>
         <div class="modal-body">
-          <div class="form-group">
+          <div class="form-group row">
+            <label for="inputPassword" class="col-sm-2 col-form-label">Subject</label>
+            <div class="col-sm-10">
+              <select class="form-control">
+                <option value="0  ">Select subjects</option>
+                @foreach($subjects as $subject)
+                  <option value="{{ $subject->id }}">{{ $subject->subj_code.' - '.$subject->subj_name }}</option>
+                @endforeach
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="inputPassword" class="col-sm-2 col-form-label">Topic</label>
+            <div class="col-sm-10">
+              <div id="input_topic_add">
+                <div class="input-group">
+                  <input type="text" class="form-control" name="topics[]" placeholder="Subject topic">
+                  <span class="input-group-btn">
+                    <button class="btn btn-primary add_topic_control" type="button">Add</button>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="syllabus-grid"></div>          
+          <!-- <div class="form-group">
             <button class="btn btn-primary btn-sm" data-toggle="collapse" data-target="#add-syllabus-card">Add Topic</button>
           </div>
           <div class="collapse" id="add-syllabus-card">
@@ -149,8 +177,8 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="form-group row" style="display: none">
+          </div> -->
+          <!-- <div class="form-group row" style="display: none">
           <label for="user-status" class="col-sm-2 col-form-label">Subject Name</label>
             <div class="col-sm-10">
               <input class="form-control" name="subj_name" />
@@ -171,7 +199,7 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary" id="btn-save">Save Subject</button>
-        </div>
+        </div> -->
       </form>
     </div>
   </div>
@@ -183,12 +211,6 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    // create MultiSelect from select HTML element
-    var required = $("#required").kendoMultiSelect().data("kendoMultiSelect");
-    // var optional = $("#optional").kendoMultiSelect({
-    //     autoClose: false
-    // }).data("kendoMultiSelect");
-
     $("#get").click(function() {
         alert("Attendees:\n\nRequired: " + required.value());
     });
@@ -257,7 +279,7 @@
                 field: "id",
                 title: "Actions",
                 width: 130,
-                template: '<center><button id="#= id #" class="btn btn-outline-success btn-sm" onclick="edit_subj(this.id)">Edit</button>&nbsp <button id="#= id #" class="btn btn-outline-secondary btn-sm" onclick="viewSyllabus(this.id)">Syllabus</button></center>',
+                template: '<center><button id="#= id #" class="btn btn-outline-success btn-sm" onclick="edit_subj(this.id)">Edit</button>',
             }, 
             {
                 hidden: true,
@@ -424,5 +446,27 @@
   function viewSyllabus(id){
     $('#mod-syllabus').modal('show');
   }
+
+  var topicContainer = $('#input_topic_add'); //Input field wrapper
+	var addTopic = $('.add_topic_control'); //Add button selector
+	$(addTopic).click(function(){ //Once add button is clicked
+		$(topicContainer).append(
+      '<div class="remove_this">'+
+        '<br>'+
+        '<div class="input-group">'+
+          '<input type="text" class="form-control" name="topics[]" placeholder="Subject topic">'+
+          '<span class="input-group-btn">'+
+            '<button class="btn btn-danger remove_button" type="button">'+
+              'Remove'+
+            '</button>'+
+          '</span>'+
+        '</div>'+
+      '</div>'); // Add field html
+	});
+
+  topicContainer.on('click', '.remove_button', function(e){ //Once remove button is clicked
+		e.preventDefault();
+		$(this).closest('.remove_this').remove(); //Remove field html
+	});
 </script>
 @endsection

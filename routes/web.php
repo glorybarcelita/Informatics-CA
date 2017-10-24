@@ -39,6 +39,8 @@ Route::group(['middleware'=>'auth'], function(){
   Route::post('subject/store', ['uses'=>'SubjectController@store']);
   Route::get('subject/edit', ['uses'=>'SubjectController@edit']);
   Route::post('subject/update', ['uses'=>'SubjectController@update']);
+
+  Route::get('icasubject/list', ['uses'=>'IcaSubjectController@index']);
 });
 
 Auth::routes();

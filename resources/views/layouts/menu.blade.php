@@ -17,6 +17,8 @@
                     <a class="dropdown-item" href="{{ url('course/list') }}">Courses <span class="sr-only">(current)</span></a>
                     <a class="dropdown-item" href="{{ url('subject/list') }}">Subjects <span class="sr-only">(current)</span></a>
                     <a class="dropdown-item" href="{{ url('user/list') }}">Users <span class="sr-only">(current)</span></a>
+                    <a class="dropdown-item" href="{{ url('icasubject/list') }}">ICA Subject <span class="sr-only">(current)</span></a>
+                
                 </div>                
             </li>
             <li class="nav-item dropdown">

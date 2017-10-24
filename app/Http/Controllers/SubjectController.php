@@ -14,9 +14,14 @@ class SubjectController extends Controller
       ->where('status', 'true')
       ->get();
 
+      $subjects_list = Subject::select('id', 'subj_code', 'subj_name')
+                      ->groupBy('subj_code')
+                      ->orderBy('subj_code')
+                      ->get();
+
       $terms = Term::get();
 
-      return view('subjects.index', ['courses'=>$courses, 'terms'=>$terms]);
+      return view('subjects.index', ['courses'=>$courses, 'terms'=>$terms, 'subjects'=>$subjects_list]);
     }
 
     public function select(){
