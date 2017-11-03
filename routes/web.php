@@ -40,7 +40,20 @@ Route::group(['middleware'=>'auth'], function(){
   Route::get('subject/edit', ['uses'=>'SubjectController@edit']);
   Route::post('subject/update', ['uses'=>'SubjectController@update']);
 
-  Route::get('icasubject/list', ['uses'=>'IcaSubjectController@index']);
+  Route::post('topic/list', ['uses'=>'SyllabusController@select']);
+  Route::post('topic/store', ['uses'=>'SyllabusController@store']);
+  Route::get('topic/edit', ['uses'=>'SyllabusController@edit']);
+  Route::post('topic/update', ['uses'=>'SyllabusController@update']);
+  Route::get('topic/delete', ['uses'=>'SyllabusController@destroy']);
+
+  Route::get('ica-subject/list', ['uses'=>'IcaSubjectController@index']);
+  Route::get('ica-subject/select', ['uses'=>'IcaSubjectController@select']);
+  Route::post('ica-subject/store', ['uses'=>'IcaSubjectController@store']);
+  Route::get('ica-subject/subjects/select', ['uses'=>'IcaSubjectController@subjectsSelect']);
+
+  Route::get('lecturer/dashboard', ['uses'=>'IcaSubjectController@lecturerDashboard']);
+  Route::get('lecturer/ica-subject/select', ['uses'=>'IcaSubjectController@lecturerIcaSubjSelect']);
+  Route::get('lecturer/ica-subject/{id}', ['uses'=>'IcaSubjectController@lecturerIcaSubjSelect']);
 });
 
 Auth::routes();

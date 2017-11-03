@@ -47,4 +47,17 @@
       <span class="text-danger" id="error-msg-subj-name"></span>
     </div>
   </div>
+{{--   <div class="form-group row">
+  <label for="user-status" class="col-sm-2 col-form-label">Lecturer</label>
+    <div class="col-sm-10">
+      <select class="form-control" name="lecturer_name">
+        <option value="0" hidden>Select lecturer</option>
+        @foreach($lecturers as $lecturer)
+          <option value="{{ $lecturer->id }}">{{ $lecturer->first_name.' '.$lecturer->last_name }}</option>
+        @endforeach
+      </select>
+      <span class="text-danger" id="error-msg-lecturer-name"></span>
+    </div>
+  </div> --}}
+
 </div>

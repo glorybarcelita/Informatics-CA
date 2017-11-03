@@ -15,9 +15,11 @@ class CreateIcaSubjectsTable extends Migration
     {
         Schema::create('ica_subjects', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('status')->default('pending'); //request/pending, approved/active, inactive (disabled by the registrar)
             $table->string('icasubj_name');
-            $table->increments('subject_id');
-            $table->string('overview')->nullable();
+            $table->integer('course_id');
+            $table->longtext('overview')->nullable();
+            $table->integer('lecturer_id');
             $table->timestamps();
         });
     }

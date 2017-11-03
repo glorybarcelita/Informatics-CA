@@ -7,20 +7,12 @@
 @endsection
 
 @section('content')
-<div class="card mb-4">
-  <div class="card-body">
-      <button class="btn btn-primary" data-toggle="modal" data-target="#mod-add-ica-subj">Add New ICA Subject</button>
-      <button class="btn btn-primary" data-toggle="modal" data-target="#">Pending Requests</button>
-  </div>
-</div>
 
-<legend>Active ICA Subjects</legend>
+<legend>Assigned ICA Subjects</legend>
 <hr>
 
 <div class="row" id="ica-subjs-container">
 </div>
-
-@include('icaSubject.icaSubject_form')
 
 @endsection
 
@@ -36,7 +28,7 @@
   function load_ica_subjects(){
     $.ajax({
       headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-      url: "{{ url('ica-subject/select') }}",
+      url: "{{ url('lecturer/ica-subject/select') }}",
       method:"GET",
       success: function(result){
         /* show console logs */
@@ -54,20 +46,9 @@
   }
 
   function generate_card(id, status, ica_subj, overview, lecturer){
-    var card_color = '';
-    if(status == 'pending'){
-      card_color = 'text-white bg-warning';
-    }
-    else if(status == 'inactive'){
-      card_color = 'text-white bg-danger';
-    }
-    else{
-      card_color = '';
-    }
-
     return '<div class="col-md-4 mb-3">'+
       '<div class="card">'+
-        '<h5 class="card-header"><a href="#" style="color: black">'+ica_subj+'</a> <small>('+status+')</small></h5>'+
+        '<h5 class="card-header"><a href="'+{{ url("lecturer/ica-subject/") }}+id+'" style="color: black">'+ica_subj+'</a> <small>('+status+')</small></h5>'+
         '<div class="card-body">'+
           '<div class="mb-2">'+
             '<div class="item">'+
@@ -126,7 +107,5 @@
     });
   }
 </script>
-
-@yield('ica-subj-script')
 
 @endsection

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSyllabiTable extends Migration
+class CreateTableIcaSubjectSubjs extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateSyllabiTable extends Migration
      */
     public function up()
     {
-        Schema::create('syllabi', function (Blueprint $table) {
+        Schema::create('ica_subject_subjs', function (Blueprint $table) {
             $table->increments('id');
-            $table->longtext('topics');
-            $table->string('subj_code');
+            $table->integer('ica_subject_id');
+            $table->integer('subj_id');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateSyllabiTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('syllabi');
+        Schema::dropIfExists('ica_subject_subjs');
     }
 }

@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 use App\Subject;
 use App\Course;
 use App\Term;
+use App\User;
 
 class SubjectController extends Controller
 {
@@ -21,14 +25,20 @@ class SubjectController extends Controller
 
       $terms = Term::get();
 
-      return view('subjects.index', ['courses'=>$courses, 'terms'=>$terms, 'subjects'=>$subjects_list]);
+      $lecturers = User::where('role_id', 2)
+                  ->get();
+
+      return view('subjects.index', ['courses'=>$courses, 'terms'=>$terms, 'subjects'=>$subjects_list, 'lecturers'=>$lecturers]);
     }
 
     public function select(){
+      $lecturer = DB::raw("CONCAT(users.first_name,' ', users.last_name) as lecturer");
+
       $subjects = Subject::join('courses', 'subjects.course_id', '=', 'courses.id')
       ->join('terms', 'subjects.term_id', '=', 'terms.id')
-      ->select('subjects.*', 'courses.course_name', 'terms.term_name')
-      ->orderBy('terms.id', 'ASC  ')
+      ->leftJoin('users', 'subjects.user_id', '=', 'users.id')
+      ->select('subjects.*', 'courses.course_name', 'terms.term_name', $lecturer)
+      ->orderBy('terms.id', 'ASC')
       ->get();
 
       return $subjects;

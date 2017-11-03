@@ -9,6 +9,10 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{{ url('home') }}">Home <span class="sr-only">(current)</span></a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('lecturer/dashboard') }}">Dashboard <span class="sr-only">(current)</span></a>
+            </li>
+            @if(Auth::user()->role_id == 'f')
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Administrator
@@ -17,10 +21,11 @@
                     <a class="dropdown-item" href="{{ url('course/list') }}">Courses <span class="sr-only">(current)</span></a>
                     <a class="dropdown-item" href="{{ url('subject/list') }}">Subjects <span class="sr-only">(current)</span></a>
                     <a class="dropdown-item" href="{{ url('user/list') }}">Users <span class="sr-only">(current)</span></a>
-                    <a class="dropdown-item" href="{{ url('icasubject/list') }}">ICA Subject <span class="sr-only">(current)</span></a>
+                    <a class="dropdown-item" href="{{ url('ica-subject/list') }}">ICA Subject <span class="sr-only">(current)</span></a>
                 
                 </div>                
             </li>
+            @endif
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <img src="https://www.sparklabs.com/forum/styles/comboot/theme/images/default_avatar.jpg" class="rounded-circle" style="width: 20px; height: 20px" alt="Avatar"/> {{ Auth::user()->first_name }}

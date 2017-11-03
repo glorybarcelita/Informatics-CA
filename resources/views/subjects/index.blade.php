@@ -24,53 +24,6 @@
   <div class="card-body">
     <h4 class="card-title">Subjects List</h4>
     <div id="grid"></div>    
-    {{-- <table class="table table-responsive table-hover">
-      <thead>
-        <tr>
-          <th>Actions</th>
-          <th>Course</th>
-          <th>Year Level</th>
-          <th>Term</th>
-          <th>Code</th>
-          <th>Subject</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach($subjects as $subject)
-          <tr>
-            <td>
-              <button class="btn btn-success btn-sm" id="{{ $subject->id }}" onclick="editCourse(this.id)">Edit</button>
-              <button class="btn btn-secondary btn-sm" id="{{ $subject->id }}" onclick="viewSyllabus(this.id)">Syllabus</button></td>
-            <td>{{ $subject->course_name }}</td>
-            <td>
-              @switch($subject->year_level)
-                    @case(1)
-                        First Year
-                        @break
-
-                    @case(2)
-                        Second Year
-                        @break
-
-                    @default
-                        Third Year
-                @endswitch
-            </td>
-            <td>{{ $subject->term_name }}</td>
-            <td>{{ $subject->subj_code }}</td>
-            <td>{{ $subject->subj_name }}</td>
-            <td>
-              @if($subject->status=='false')
-                <label class="text-danger">Inactive</label>
-              @else
-                <label class="text-primary">Active</label>
-              @endif
-            </td>
-          </tr>
-        @endforeach
-      </tbody>
-    </table> --}}
   </div>
 </div>
 
@@ -124,7 +77,7 @@
 <div class="modal fade" id="mod-syllabus" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-      <form id="add-record">
+      <form id="add-record-topics">
         <input type="text" name="user_id" style="display:none" value="{{ old('user_id') }}">
         <div class="modal-header">
           <h5 class="modal-title" id="editUserModalLabel">Subject Syllabus</h5>
@@ -136,70 +89,97 @@
           <div class="form-group row">
             <label for="inputPassword" class="col-sm-2 col-form-label">Subject</label>
             <div class="col-sm-10">
-              <select class="form-control">
-                <option value="0  ">Select subjects</option>
+              <select class="form-control" id="subject-syallabus">
+                <option hidden>Select subjects</option>
                 @foreach($subjects as $subject)
-                  <option value="{{ $subject->id }}">{{ $subject->subj_code.' - '.$subject->subj_name }}</option>
+                  <option value="{{ $subject->subj_code }}">{{ $subject->subj_code.' - '.$subject->subj_name }}</option>
                 @endforeach
               </select>
             </div>
           </div>
-
-          <div class="form-group row">
-            <label for="inputPassword" class="col-sm-2 col-form-label">Topic</label>
-            <div class="col-sm-10">
-              <div id="input_topic_add">
-                <div class="input-group">
-                  <input type="text" class="form-control" name="topics[]" placeholder="Subject topic">
-                  <span class="input-group-btn">
-                    <button class="btn btn-primary add_topic_control" type="button">Add</button>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div id="syllabus-grid"></div>          
-          <!-- <div class="form-group">
-            <button class="btn btn-primary btn-sm" data-toggle="collapse" data-target="#add-syllabus-card">Add Topic</button>
-          </div>
-          <div class="collapse" id="add-syllabus-card">
-            <div class="card card-body">
-              <div class="form-group row">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Topic</label>
-                <div class="col-sm-10">
-                  <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Subject topic">
-                    <span class="input-group-btn">
-                      <button class="btn btn-secondary" type="button">Save Topic</button>
-                    </span>
+          <div class="form-group" id="initial-topic" style="display: none">
+            <button class="btn btn-outline-primary" id="btn-topic-inputs" data-toggle="collapse" data-target="#add-topic-form">Add Topic</button>
+            <div class="collapse mt-2" id="add-topic-form"">
+              <div class="card">                
+                <div class="card-body">
+                    <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-2 col-form-label">Topic</label>
+                    <div class="col-sm-10">
+                      <div id="input_topic_add">
+                        <div class="input-group">
+                          <input type="text" class="form-control" name="topics[]" placeholder="Subject topic">
+                          <span class="input-group-btn">
+                            <button class="btn btn-outline-primary add_topic_control" type="button">Add</button>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
+                <div class="card-footer" align="center">
+                  <button type="button" class="btn btn-outline-danger" id="btn-reset-topics">Reset</button>
+                  <button type="button" class="btn btn-outline-success" id="btn-save-topics">Save Topics</button>
+                </div>
               </div>
-            </div>
-          </div> -->
-          <!-- <div class="form-group row" style="display: none">
-          <label for="user-status" class="col-sm-2 col-form-label">Subject Name</label>
+            </div>            
+          </div> 
+      </form>
+      <div id="syllabi-grid"></div>          
+    </div>
+  </div>
+</div>
+
+{{-- update subject topics --}}
+<div class="modal fade" id="mod-syllabus-update" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form id="update-record-topic">
+        <div class="modal-header">
+          <h5 class="modal-title">Update Topic Details</h5>
+        </div>
+        <div class="modal-body">
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Subject</label>
             <div class="col-sm-10">
-              <input class="form-control" name="subj_name" />
+              <select class="form-control" id="subject-syallabus">
+                <option hidden>Select subjects</option>
+                @foreach($subjects as $subject)
+                  <option value="{{ $subject->subj_code }}">{{ $subject->subj_code.' - '.$subject->subj_name }}</option>
+                @endforeach
+              </select>
             </div>
           </div>
-          <div class="form-group">
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th>Actions</th>
-                  <th>Topic</th>
-                </tr>
-              </thead>
-              <tbody>
-            </table>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Topic</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="topic">
+            </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" id="btn-save">Save Subject</button>
-        </div> -->
+          <button type="button" class="btn btn-secondary" id="btn-update-topic">Close</button>
+          <button type="button" class="btn btn-primary" id="btn-save">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{{-- delete subject topics --}}
+<div class="modal fade" id="mod-syllabus-delete" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form id="delete-record-topic">
+        <div class="modal-header">
+          <h5 class="modal-title">Delete Topic?</h5>
+        </div>
+        <div class="modal-body">
+          <label>Are you sure you want to delete this topic?</label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="btn-delete-topic-no">No</button>
+          <button type="button" class="btn btn-primary" id="btn-delete">Yes</button>
+        </div>
       </form>
     </div>
   </div>
@@ -210,11 +190,8 @@
 <script src="{{asset('vendor/kendo/src/js/kendo.all.js')}}"></script>
 
 <script type="text/javascript">
+  /* initialize subject data when page is loaded */
   $(document).ready(function(){
-    $("#get").click(function() {
-        alert("Attendees:\n\nRequired: " + required.value());
-    });
-
     $("#grid").kendoGrid({
         dataSource: {                                            
             transport: {
@@ -309,10 +286,16 @@
                 title: "Subject Name",
                 width: 300,
             },
+            {
+                field: "lecturer",
+                title: "Lecturer Name",
+                width: 300,
+            },
         ]
-    });
+    });    
   });
 
+  /* save new subject */
   $("#add-record #btn-save").click(function() {
     $.ajax({
       headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -324,6 +307,7 @@
         term_id: $('#add-record [name=term]').val(), 
         subj_code: $('#add-record [name=subj_code]').val(), 
         subj_name: $('#add-record [name=subj_name]').val(),
+        lecturer: $('#add-record [name=lecturer_name]').val(),
       }, 
       success: function(result){
         /* show console logs */
@@ -346,6 +330,7 @@
         $('#add-record [name=subj_name]').removeClass('is-invalid');
         $('#error-msg-subj-name').empty();
 
+        /* refresh subj grid */
         $("#grid").data("kendoGrid").dataSource.read();
         $('#grid').data('kendoGrid').refresh();
       },
@@ -364,7 +349,6 @@
   });
 
   var subject_id = 0;
-
   function edit_subj(id){
     $.ajax({
       headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -376,6 +360,7 @@
       success: function(result){
         // console.log(result);
 
+        /* pass the results in  */
         subject_id = result.id;
         $('#update-record [name=course]').val(result.course_id),
         $('#update-record [name=year_level]').val(result.year_level),
@@ -394,6 +379,7 @@
     });
   }
 
+  /* save changes in subject details */
   $('#update-record #btn-save').click(function (){
     $.ajax({
       headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -444,9 +430,11 @@
   });
 
   function viewSyllabus(id){
+    //
     $('#mod-syllabus').modal('show');
   }
 
+  /* dynamic field for topic */
   var topicContainer = $('#input_topic_add'); //Input field wrapper
 	var addTopic = $('.add_topic_control'); //Add button selector
 	$(addTopic).click(function(){ //Once add button is clicked
@@ -468,5 +456,209 @@
 		e.preventDefault();
 		$(this).closest('.remove_this').remove(); //Remove field html
 	});
+
+  /* display subject topics and dynamic topic field when select change */
+  $("#add-record-topics #subject-syallabus").change(function() {
+    $('.remove_this').remove();
+    $('#initial-topic').show('alert');
+
+    /* this will return all the topics of selected subject using subject code. data will be displayed to grid if success */
+    $.ajax({
+      headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+      url: "{{ url('topic/list') }}",
+      method:"POST",
+      data:{
+        subj_code: $('#add-record-topics #subject-syallabus').val(),
+      }, 
+      success: function(result){
+        /* show console logs */
+        console.log(result);
+
+        /* generate subject syllabi via subject code */
+        syllabi(result);
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+        var responseText = $.parseJSON(XMLHttpRequest.responseText);
+      } 
+    });
+  });
+
+  /* save new topics */
+  $('#add-record-topics #btn-save-topics').click(function(){
+    var topics= new Array();
+    $('input[name^="topics"]').each(function() {
+      topics.push($(this).val());
+    });
+
+    $.ajax({
+      headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+      url: "{{ url('topic/store') }}",
+      method:"POST",
+      data:{
+        subj_code: $('#subject-syallabus').val(), 
+        topics: topics,
+      }, 
+      success: function(result){
+        /* show console logs */
+        console.log(result);
+
+        /* close topics form */
+        $('#btn-topic-inputs').trigger('click');
+        $('#btn-reset-topics').trigger('click');
+
+        /* reload syllabi grid */
+        syllabi(result.syllabi);
+
+        /* clear initial topic field */
+        $('input[name^="topics"]').val('');
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+        var responseText = $.parseJSON(XMLHttpRequest.responseText);
+      } 
+    });    
+
+    $('#btn-reset-topics').click(function(){
+      $('.remove_this').remove();
+    });
+  });
+
+  /* initialize grid for syllabi */
+  function syllabi(results){
+    /* hide add topic form */
+    $('#add-topic-form').collapse('hide');
+
+    /* initialize and destroy grid */
+    $('#syllabi-grid').kendoGrid();        
+    $('#syllabi-grid').kendoGrid('destroy').empty();
+
+    /* grid */
+    $("#syllabi-grid").kendoGrid({
+      dataSource: {
+        data: results,
+        pageSize: 5,
+      },
+      resizable: true,
+      filterable: true,
+      sortable: true,
+      pageable: {
+        pageSizes: true,
+        buttonCount: 5
+      },
+      columns: [
+        {
+          field: "id",
+          title: "Actions",
+          template: "<button type='button' class='btn btn-sm btn-outline-info' id='#= id #' onclick='update_topic(this.id)'>Edit</button> "+
+          "<button type='button' class='btn btn-sm btn-outline-danger' id='#= id #' onclick='delete_topic(this.id)'>Delete</button>"
+        },
+        // {
+        //   field: "subj_code",
+        //   title: "Subject Code",
+        // }, 
+        {
+          field: "topics",
+          title: "Topic Name",
+        }, 
+      ]
+    });
+  }
+  
+  var topic_id = '';
+  function update_topic(id){
+    /* this will return all the topics of selected subject using subject code. data will be displayed to grid if success */
+    $.ajax({
+      headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+      url: "{{ url('topic/edit') }}",
+      method:"GET",
+      data:{
+        topic_id: id,
+      }, 
+      success: function(result){
+        /* show console logs */
+        // console.log(result);
+
+        /* modal for update topic */
+        $('#mod-syllabus-update').modal('show');
+
+        /* pass results to form */
+        $('#update-record-topic #subject-syallabus').val(result.subj_code);
+        $('#update-record-topic #topic').val(result.topics);
+        
+        topic_id = result.id;
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+        var responseText = $.parseJSON(XMLHttpRequest.responseText);
+      } 
+    });
+  }
+
+  $('#update-record-topic #btn-save').click(function(){
+    $.ajax({
+      headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+      url: "{{ url('topic/update') }}",
+      method: "POST",
+      data:{
+        id: topic_id,
+        subj_code: $('#update-record-topic #subject-syallabus').val(),
+        topic: $('#update-record-topic #topic').val()
+      },
+      success: function(result){
+        console.log(result);
+
+        /* reload grid data */
+        syllabi(result.syllabi);
+
+        /* close modal */
+        $('#mod-syllabus-update').modal('hide');
+
+        /* change selected subject cdoe value in case it is the update made */
+        console.log(result.syllabi[0].subj_code);
+        $('#add-record-topics #subject-syallabus').val(result.syllabi[0].subj_code);
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown){
+        var responseText = $.parseJSON(XMLHttpRequest.responseText);
+      }
+    });
+  });
+
+  $('#btn-update-topic').click(function(){
+    // 
+    $('#mod-syllabus-update').modal('hide');
+  });
+
+  function delete_topic(id){
+    topic_id = id;
+
+    /* show modal to confirm deletion of topic */
+    $('#mod-syllabus-delete').modal('show');
+  }
+
+  $('#btn-delete-topic-no').click(function(){
+    // 
+    $('#mod-syllabus-delete').modal('hide');
+  });
+
+  $('#delete-record-topic #btn-delete').click(function(){
+    $.ajax({
+      headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+      url: "{{ url('topic/delete') }}",
+      method: "GET",
+      data:{
+        topic_id: topic_id,
+      },
+      success: function(result){
+        console.log(result);
+
+        /* reload grid data */
+        syllabi(result.syllabi);
+
+        /* close modal */
+        $('#mod-syllabus-delete').modal('hide');
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown){
+        var responseText = $.parseJSON(XMLHttpRequest.responseText);
+      }
+    });
+  });
 </script>
 @endsection
