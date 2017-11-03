@@ -48,7 +48,7 @@
   function generate_card(id, status, ica_subj, overview, lecturer){
     return '<div class="col-md-4 mb-3">'+
       '<div class="card">'+
-        '<h5 class="card-header"><a href="'+{{ url("lecturer/ica-subject/") }}+id+'" style="color: black">'+ica_subj+'</a> <small>('+status+')</small></h5>'+
+        '<h5 class="card-header"><a href="{{ url("lecturer/ica-subject") }}/'+id+'" style="color: black">'+ica_subj+'</a> <small>('+status+')</small></h5>'+
         '<div class="card-body">'+
           '<div class="mb-2">'+
             '<div class="item">'+

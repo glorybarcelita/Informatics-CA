@@ -132,7 +132,24 @@
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) { 
         /* display error */
-        alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+        // alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+
+        // console.log(XMLHttpRequest.responseJSON.errors.description);
+        var errors = XMLHttpRequest.responseJSON.errors;
+
+        if(errors.name){
+          $('#add-record [name=course_name]').addClass('is-invalid');
+        }
+        else{
+          $('#add-record [name=course_name]').removeClass('is-invalid');
+        }
+
+        if(errors.description){
+          $('#add-record [name=course_description]').addClass('is-invalid');
+        }
+        else{
+          $('#add-record [name=course_description]').removeClass('is-invalid');
+        }
       } 
     });
   });

@@ -9,10 +9,12 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{{ url('home') }}">Home <span class="sr-only">(current)</span></a>
             </li>
+            @if(Auth::user()->role_id == '2')            
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('lecturer/dashboard') }}">Dashboard <span class="sr-only">(current)</span></a>
             </li>
-            @if(Auth::user()->role_id == 'f')
+            @endif
+            @if(Auth::user()->role_id == '1')
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Administrator
