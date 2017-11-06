@@ -68,10 +68,6 @@
           '<h5>Lecturer:</h5>'+
           lecturer+
         '</div>'+
-        '<div class="card-footer text-muted">'+
-          '<a href="#" class="btn btn-sm btn-outline-primary">Update</a> &nbsp'+
-          '<a href="#" class="btn btn-sm btn-outline-danger">Delete</a>'+
-        '</div>'+
       '</div>'+
     '</div>';
   }

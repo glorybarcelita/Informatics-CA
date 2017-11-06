@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('vendor/bootstrap/dist/css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet">
 
     @yield('css')
 </head>
