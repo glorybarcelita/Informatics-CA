@@ -49,6 +49,8 @@ Route::group(['middleware'=>'auth'], function(){
   Route::get('ica-subject/list', ['uses'=>'IcaSubjectController@index']);
   Route::get('ica-subject/select', ['uses'=>'IcaSubjectController@select']);
   Route::post('ica-subject/store', ['uses'=>'IcaSubjectController@store']);
+  Route::get('ica-subject/edit', ['uses'=>'IcaSubjectController@edit']);
+  Route::post('ica-subject/update', ['uses'=>'IcaSubjectController@update']);
   Route::get('ica-subject/subjects/select', ['uses'=>'IcaSubjectController@subjectsSelect']);
 
   Route::get('lecturer/dashboard', ['uses'=>'IcaSubjectController@lecturerDashboard']);

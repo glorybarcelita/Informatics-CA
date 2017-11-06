@@ -68,9 +68,9 @@
   </div>
 </div>
 
-@section('ica-subj-script')
+@section('ica-subj-add-script')
 <script type="text/javascript">
-  var subjects = $("#subjects").kendoMultiSelect().data("kendoMultiSelect");
+  var subjects = $("#add-ica-subj #subjects").kendoMultiSelect().data("kendoMultiSelect");
 
   $('#add-ica-subj #btn-save').click(function(){
     $.ajax({

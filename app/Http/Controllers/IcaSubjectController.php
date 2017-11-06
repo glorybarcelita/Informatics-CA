@@ -47,6 +47,40 @@ class IcaSubjectController extends Controller
     return $data->storeIcaSubject($request->ica_subj_name, $request->course, $request->subjects, $request->overview, $request->lecturer);
   }
 
+  public function edit(Request $request){
+    $icaSubjects = IcaSubject::where('id', $request->ica_subj_id)
+                    ->get();
+
+    $icaSubjSubjects = DB::table('ica_subject_subjs')
+                        ->select('subj_id')
+                        ->where('ica_subject_id', $request->ica_subj_id)
+                        ->get();
+
+    $data = [];
+    foreach ($icaSubjects as $icaSubject) {
+        $data = [
+            'status'=>$icaSubject->status,
+            'icasubj_name'=>$icaSubject->icasubj_name,
+            'course_id'=>$icaSubject->course_id,
+            'subjects'=>$icaSubjSubjects,
+            'overview'=>$icaSubject->overview,
+            'lecturer_id'=>$icaSubject->lecturer_id,
+        ];
+    }
+
+    return $data;
+  }
+
+  public function update(Request $request){
+    $data = IcaSubject::find($request->id);
+    $data->status = $request->status;
+    $data->icasubj_name = $request->ica_subj_name;
+    $data->course_id = $request->course;
+    $data->overview = $request->overview;
+    $data->lecturer_id = $request->lecturer;
+    $data->update();
+  }
+
   public function subjectsSelect(Request $request){
     $data = DB::table('ica_subject_subjs')
             ->join('subjects', 'ica_subject_subjs.subj_id', '=', 'subjects.id')

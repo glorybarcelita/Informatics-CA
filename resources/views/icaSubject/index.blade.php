@@ -14,13 +14,14 @@
   </div>
 </div>
 
-<legend>Active ICA Subjects</legend>
+<legend>ICA Subjects</legend>
 <hr>
 
 <div class="row" id="ica-subjs-container">
 </div>
 
-@include('icaSubject.icaSubject_form')
+@include('icaSubject.icaSubject_addform')
+@include('icaSubject.icaSubject_updateform')
 
 @endsection
 
@@ -53,6 +54,7 @@
     });
   }
 
+  /* show ica subjects */
   function generate_card(id, status, ica_subj, overview, lecturer){
     var card_color = '';
     if(status == 'pending'){
@@ -88,13 +90,14 @@
           lecturer+
         '</div>'+
         '<div class="card-footer text-muted">'+
-          '<a href="#" class="btn btn-sm btn-outline-primary">Update</a> &nbsp'+
+          '<a href="#" class="btn btn-sm btn-outline-primary" id="'+id+'" onclick="editIcaSubj(this.id)">Update</a> &nbsp'+
           '<a href="#" class="btn btn-sm btn-outline-danger">Delete</a>'+
         '</div>'+
       '</div>'+
     '</div>';
   }
 
+  /* display ica subject subjects */
   function getSubjects(id){
     $('#ica-subjs-collapse'+id).collapse('toggle');
     show_ica_subjects(id);
@@ -125,8 +128,10 @@
       } 
     });
   }
+
 </script>
 
-@yield('ica-subj-script')
+@yield('ica-subj-add-script')
+@yield('ica-subj-update-script')
 
 @endsection
