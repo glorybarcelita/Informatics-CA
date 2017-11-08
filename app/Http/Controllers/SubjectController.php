@@ -69,4 +69,11 @@ class SubjectController extends Controller
       $data = new Subject();
       return $data->subjectUpdate($request->subject_id, $request->course_id, $request->year_level, $request->term_id, $request->subj_code, $request->subj_name);        
     }
+
+    public function subjByCourse(Request $request){
+      $data = Subject::where('course_id', $request->course_id)
+            ->get();
+
+      return $data;
+    }
 }

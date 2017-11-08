@@ -79,7 +79,7 @@
       method:"POST",
       data:{
         ica_subj_name: $('#add-ica-subj #icasubj-name').val(),
-        course: $('#course').val(),
+        course: $('#add-ica-subj #course').val(),
         subjects: subjects.value(),
         overview: $('#add-ica-subj #overview').val(), 
         lecturer: $('#add-ica-subj #lecturer').val(), 
@@ -93,14 +93,65 @@
 
         /* reset form after success insert */
         $('#add-ica-subj')[0].reset();
+
+        location.reload();
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
         var responseText = $.parseJSON(XMLHttpRequest.responseText);
 
         console.log(responseText);
+      } 
+    });
+  });
 
-        // $('#add-record [name=subj_code]').addClass('is-invalid');
-        // $('#error-msg-subj-code').html(responseText.errors.subj_code);
+  $('#add-ica-subj #course').change(function(){
+    $.ajax({
+      headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+      url: "{{ url('subject/by-course') }}",
+      method:"POST",
+      data:{
+        course_id: $('#add-ica-subj #course').val(),
+      }, 
+      success: function(result){
+        /* show console logs */
+        console.log(result);
+
+        /* set selected subjects in subjects field */
+        // var multiselect = $("#add-ica-subj #subjects").data("kendoMultiSelect");
+
+        // // set the value of the multiselect.
+        // icaSubjSubjects = [];
+        // for (var i = 0; i < result.length; i++) {
+        //   icaSubjSubjects.push(result[i].subj_id);
+        // }
+        // multiselect.setDataSource(icaSubjSubjects); //select items which have value respectively "1" and "2"  
+
+        // var dataSource = new kendo.data.DataSource({
+        //   data: [ "Bananas", "Cherries" ]
+        // });
+        // var multiselect = $("#add-ica-subj #subjects").data("kendoMultiSelect");
+        // multiselect.setDataSource(dataSource); 
+
+        // $("#add-ica-subj #subjects").data("kendoMultiSelect").destroy();
+
+        // $('#add-ica-subj #subjects').kendoMultiSelect({
+        //     // autoBind: true,
+        //     dataTextField: 'subj_name',
+        //     dataValueField: 'id',
+        //     dataSource: result,
+        // });
+
+        $("#add-ica-subj #subjects").data(new kendo.data({ 
+          dataTextField: 'subj_name',
+          dataValueField: 'id',
+          dataSource: result,
+        }));
+
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+        var responseText = $.parseJSON(XMLHttpRequest.responseText);
+
+        console.log(responseText);
       } 
     });
   });

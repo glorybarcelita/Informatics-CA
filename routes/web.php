@@ -39,6 +39,7 @@ Route::group(['middleware'=>'auth'], function(){
   Route::post('subject/store', ['uses'=>'SubjectController@store']);
   Route::get('subject/edit', ['uses'=>'SubjectController@edit']);
   Route::post('subject/update', ['uses'=>'SubjectController@update']);
+  Route::post('subject/by-course', ['uses'=>'SubjectController@subjByCourse']);
 
   Route::post('topic/list', ['uses'=>'SyllabusController@select']);
   Route::post('topic/store', ['uses'=>'SyllabusController@store']);

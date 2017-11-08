@@ -71,14 +71,14 @@ class IcaSubjectController extends Controller
     return $data;
   }
 
-  public function update(Request $request){
-    $data = IcaSubject::find($request->id);
-    $data->status = $request->status;
-    $data->icasubj_name = $request->ica_subj_name;
-    $data->course_id = $request->course;
-    $data->overview = $request->overview;
-    $data->lecturer_id = $request->lecturer;
-    $data->update();
+  public function update(Request $request){    
+    $request->validate([
+      'ica_subj_name' => 'required',
+      'overview' => 'required',
+    ]);
+
+    $data = new IcaSubject();
+    return $data->updateIcaSubject($request->id, $request->status, $request->ica_subj_name, $request->course, $request->subjects, $request->overview, $request->lecturer);    
   }
 
   public function subjectsSelect(Request $request){

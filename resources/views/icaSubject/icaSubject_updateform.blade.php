@@ -14,6 +14,7 @@
             <label for="user-status" class="col-sm-2 col-form-label">Status</label>
               <div class="col-sm-10">
                 <select class="form-control" id="icasubj-status">
+                    <option value="pending">Pending</option>
                     <option value="active">Active</option>
                     <option value="inactive">Inactive</option>
                 </select>
@@ -79,7 +80,7 @@
 </div>
 
 @section('ica-subj-update-script')
-<script type="text/javascript">  
+<script type="text/javascript">
   $("#update-ica-subj #subjects").kendoMultiSelect().data("kendoMultiSelect");
   var icaSubjectId = '';
 
@@ -104,18 +105,15 @@
         $('#update-ica-subj #overview').val(result.overview);
         $('#update-ica-subj #lecturer').val(result.lecturer_id);
 
-        // get the value of the multiselect.
-        // var value = multiselect.value();
-
         /* set selected subjects in subjects field */
         var multiselect = $("#update-ica-subj #subjects").data("kendoMultiSelect");
+
         // set the value of the multiselect.
         icaSubjSubjects = [];
         for (var i = 0; i < result.subjects.length; i++) {
           icaSubjSubjects.push(result.subjects[i].subj_id);
         }
-        multiselect.value(icaSubjSubjects); //select items which have value respectively "1" and "2"
-
+        multiselect.value(icaSubjSubjects); //select items which have value respectively "1" and "2"        
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
         var responseText = $.parseJSON(XMLHttpRequest.responseText);
@@ -134,8 +132,9 @@
       method:"POST",
       data:{
         id: icaSubjectId,
+        status: $('#update-ica-subj #icasubj-status').val(),
         ica_subj_name: $('#update-ica-subj #icasubj-name').val(),
-        course: $('#course').val(),
+        course: $('#update-ica-subj #course').val(),
         subjects: subjects.value(),
         overview: $('#update-ica-subj #overview').val(), 
         lecturer: $('#update-ica-subj #lecturer').val(), 
@@ -149,6 +148,8 @@
 
         /* reset form after success insert */
         $('#update-ica-subj')[0].reset();
+
+        window.location.reload();
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
         var responseText = $.parseJSON(XMLHttpRequest.responseText);
