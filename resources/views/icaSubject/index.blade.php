@@ -22,6 +22,7 @@
 
 @include('icaSubject.icaSubject_addform')
 @include('icaSubject.icaSubject_updateform')
+@include('icaSubject.icaSubject_deleteform')
 
 @endsection
 
@@ -91,7 +92,7 @@
         '</div>'+
         '<div class="card-footer text-muted">'+
           '<a href="#" class="btn btn-sm btn-outline-primary" id="'+id+'" onclick="editIcaSubj(this.id)">Update</a> &nbsp'+
-          '<a href="#" class="btn btn-sm btn-outline-danger">Delete</a>'+
+          '<button class="btn btn-sm btn-outline-danger" id="'+id+'" value="'+ica_subj+' with status of '+status+'" onclick="deleteIcaSubj(this.id, this.value)">Delete</button>'+
         '</div>'+
       '</div>'+
     '</div>';
@@ -133,5 +134,6 @@
 
 @yield('ica-subj-add-script')
 @yield('ica-subj-update-script')
+@yield('ica-subj-delete-script')
 
 @endsection

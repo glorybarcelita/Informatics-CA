@@ -32,8 +32,8 @@
                 </div>
             </div>
             <div class="card-footer">
-              <button class="btn btn-outline-secondary" id="btn-quiz-{{ $ica_topic->id }}">Quiz</button>
-              <button class="btn btn-outline-secondary" id="btn-edit-{{ $ica_topic->id }}">Edit</button>
+              <button class="btn btn-outline-secondary" id="btn-quiz-{{ $ica_topic->id }}">Create Quiz</button>
+              <button class="btn btn-outline-secondary" id="btn-edit-{{ $ica_topic->id }}">Open Topic</button>
               {{-- <button class="btn btn-outline-secondary">Attachments</button> --}}
             </div>
           </div>
@@ -78,13 +78,6 @@
                   <span class="text-danger" id="error-ica-topic-syllabus"></span> 
                 </div>
             </div>
-            {{-- <div class="form-group row">
-              <label for="ica-topic-syllabus" class="col-sm-2 col-form-label">Attachment</label>
-                <div class="col-sm-10">
-                  <input name="files" id="files" type="file" />
-                  <span class="text-danger" id="error-ica-topic-syllabus"></span> 
-                </div>
-            </div> --}}
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

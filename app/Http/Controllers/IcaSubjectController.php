@@ -182,4 +182,11 @@ class IcaSubjectController extends Controller
 
     return $data;
   }
+
+  public function delete(Request $request){
+    $data = IcaSubject::find($request->id);
+    $data->delete();
+
+    return "success";
+  }
 }
