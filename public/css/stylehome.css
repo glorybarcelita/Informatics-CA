@@ -1,0 +1,57 @@
+.size{
+  margin-0px;
+
+}
+/*body{
+  
+  color: #fff;
+}*/
+#header{
+  margin-top: 0;
+  background:url('/img/5.jpeg') no-repeat;
+  min-height:700px;
+  background-size:cover;
+  background-attachment:fixed;
+  color: #fff;
+}
+
+.dark-overlay{
+    background-color:rgba(0,0,0,0.5);;
+    /*position:absolute;
+    top:0;
+    left: 0;*/
+    width:100%;
+    min-height:700px;
+  }
+
+   .home-inner{
+    padding-top:150px;
+  }
+
+  .card-form{
+    opacity:0.8;
+  }
+
+  .fa{
+    color:#48b0cf;
+    background:#fff;
+    padding:4px;
+    border-radius:5px;
+    font-size:25px;
+  }
+  .fa-black{
+    olor:#fff;
+    background:#333;
+    padding:4px;
+    border-radius: 5px;
+    font-size:25px;
+  }
+.font-white{
+  color:#fff;
+}
+
+#explore-head-section{
+  background:#333;
+}
+
+

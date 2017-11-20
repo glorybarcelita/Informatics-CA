@@ -102,7 +102,7 @@
             <div class="collapse mt-2" id="add-topic-form"">
               <div class="card">                
                 <div class="card-body">
-                    <div class="form-group row">
+                  <div class="form-group row">
                     <label for="inputPassword" class="col-sm-2 col-form-label">Topic</label>
                     <div class="col-sm-10">
                       <div id="input_topic_add">

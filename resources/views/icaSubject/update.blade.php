@@ -17,9 +17,9 @@
   </p>
   <button class="btn btn-outline-primary mt-3 " id="btn-add-ica-subj-topic">Add ICA Subject Topic</button>
   <button class="btn btn-outline-primary mt-3 " id="btn-add-ica-subj-topic">Add ICA Subject Exam</button>
-  <div class="row mt-3  ">
+  <div class="row mt-3">
     @foreach($ica_topics as $ica_topic)
-        <div class="col-md-4">
+        <div class="col-md-4 my-3">
           <div class="card">
             <div class="card-header">{{ $ica_topic->topic_title }}</div>
             <div class="card-body">
@@ -33,13 +33,16 @@
             </div>
             <div class="card-footer">
               <button class="btn btn-outline-secondary" id="btn-quiz-{{ $ica_topic->id }}">Create Quiz</button>
-              <button class="btn btn-outline-secondary" id="btn-edit-{{ $ica_topic->id }}">Open Topic</button>
+              <a href="{{ url('icasubject/topic/').'/'.$ica_topic->id }}" class="btn btn-outline-secondary" id="btn-edit-{{ $ica_topic->id }}">Open Topic</a>
               {{-- <button class="btn btn-outline-secondary">Attachments</button> --}}
             </div>
           </div>
         </div>
     @endforeach
   </div>
+
+            <div class="form-group row">
+              <label for="" class="col-sm-2 col-form-label">Video Link</label>
   <!-- Modal -->
   <div class="modal fade" id="mod-add-ica-subj-topic" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -52,7 +55,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <input class="form-control" name="ica_subj_id" value="{{ Route::input('ica_subj_id') }}" hidden>
+            <input class="form-control" name="ica_subj_id" id="ica-subj-id" value="{{ Route::input('ica_subj_id') }}" hidden>
             <div class="form-group row">
               <label for="ica-topic-title" class="col-sm-2 col-form-label">Topic Title</label>
                 <div class="col-sm-10">
@@ -78,10 +81,21 @@
                   <span class="text-danger" id="error-ica-topic-syllabus"></span> 
                 </div>
             </div>
+              <div class="col-sm-10">
+                <div id="input_link_add">
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="links[]" placeholder="Topic video link">
+                    <span class="input-group-btn">
+                      <button class="btn btn-outline-primary add_link_control" type="button">Add</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" id="btn-save">Save changes</button>
+            <button type="button" class="btn btn-primary" id="btn-save" onclick="addTopic()">Save changes</button>
           </div>
         </form>
       </div>
@@ -110,26 +124,56 @@
     $('#mod-add-ica-subj-topic').modal('show');
   });
 
-  $("#add-ica-subj").submit(function(){
-      var formData = new FormData(this);
+  // $("#add-ica-subj").submit(function(){
+  //     var formData = new FormData(this);
 
-      $.ajax({
-        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        url: "{{ url('lecturer/ica-subject/topic/store/') }}",
-        type: 'POST',
-        data: formData,
-        async: false,
-        success: function (data) {
-            console.log(data);
-            location.reload();
-        },
-        cache: false,
-        contentType: false,
-        processData: false
-      });
+  //     $.ajax({
+  //       headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+  //       url: "{{ url('lecturer/ica-subject/topic/store/') }}",
+  //       type: 'POST',
+  //       data: formData,
+  //       async: false,
+  //       success: function (data) {
+  //           console.log(data);
+  //           location.reload();
+  //       },
+  //       cache: false,
+  //       contentType: false,
+  //       processData: false
+  //     });
 
-      return false;
-  });
+  //     return false;
+  // });
+
+  /* save new topics */
+  function addTopic(){
+    var links= new Array();
+    $('input[name^="links"]').each(function() {
+      links.push($(this).val());
+    });
+
+    $.ajax({
+      headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+      url: "{{ url('lecturer/ica-subject/topic/store/') }}",
+      method:"POST",
+      data:{
+        ica_subj_id: $('#add-ica-subj #ica-subj-id').val(), 
+        ica_topic_syllabus: $("#add-ica-subj #ica-topic-syllabus").kendoMultiSelect().data("kendoMultiSelect").value(), 
+        topic_title: $('#add-ica-subj #ica-topic-title').val(), 
+        note: $('#note').val(),
+        links: links,
+      }, 
+      success: function(result){
+        /* show console logs */
+        console.log(result);
+
+        location.reload();
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+        var responseText = $.parseJSON(XMLHttpRequest.responseText);
+      } 
+    });
+  }
 
   function getTaggedSyllabus(id){
     $.ajax({
@@ -161,6 +205,29 @@
       } 
     });
   }
+
+  /* dynamic field for topic */
+  var linkContainer = $('#input_link_add'); //Input field wrapper
+  var addLink = $('.add_link_control'); //Add button selector
+  $(addLink).click(function(){ //Once add button is clicked
+    $(linkContainer).append(
+      '<div class="remove_this">'+
+        '<br>'+
+        '<div class="input-group">'+
+          '<input type="text" class="form-control" name="links[]" placeholder="Video link">'+
+          '<span class="input-group-btn">'+
+            '<button class="btn btn-danger remove_button" type="button">'+
+              'Remove'+
+            '</button>'+
+          '</span>'+
+        '</div>'+
+      '</div>'); // Add field html
+  });
+
+  linkContainer.on('click', '.remove_button', function(e){ //Once remove button is clicked
+    e.preventDefault();
+    $(this).closest('.remove_this').remove(); //Remove field html
+  });
 </script>
 
 @endsection
