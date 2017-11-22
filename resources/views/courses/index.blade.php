@@ -53,15 +53,12 @@
         <input type="text" name="user_id" style="display:none" value="{{ old('user_id') }}">
         <div class="modal-header">
           <h5 class="modal-title" id="editUserModalLabel">Course Details</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
         </div>
         <div class="modal-body">
           @include('courses.course_form')
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn-close">Close</button>
           <button type="button" class="btn btn-primary" id="btn-save">Save Course</button>
         </div>
       </form>
@@ -94,7 +91,7 @@
           @include('courses.course_form')
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn-close">Close</button>
           <button type="button" class="btn btn-primary" id="btn-update">Save Changes</button>
         </div>
       </form>
@@ -136,19 +133,28 @@
 
         // console.log(XMLHttpRequest.responseJSON.errors.description);
         var errors = XMLHttpRequest.responseJSON.errors;
-
+        var responseText = $.parseJSON(XMLHttpRequest.responseText);
+        console.log(responseText);
         if(errors.name){
           $('#add-record [name=course_name]').addClass('is-invalid');
+          $('#add-record [name=course_name]').removeClass('is-valid');
+          $('#error-course-name').text(errors.name);
         }
         else{
+          $('#add-record [name=course_name]').addClass('is-valid');
           $('#add-record [name=course_name]').removeClass('is-invalid');
+          $('#error-course-name').text('');
         }
 
         if(errors.description){
           $('#add-record [name=course_description]').addClass('is-invalid');
+          $('#add-record [name=course_description]').removeClass('is-valid');
+          $('#error-description').text(errors.description);
         }
         else{
+          $('#add-record [name=course_description]').addClass('is-valid');
           $('#add-record [name=course_description]').removeClass('is-invalid');
+          $('#error-description').text('');
         }
       } 
     });
@@ -211,9 +217,58 @@
         $('#submit-message').html(result.message);
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) { 
-        alert("Status: " + textStatus); alert("Error: " + errorThrown); 
-      } 
+        //alert("Status: " + textStatus);
+        //alert("Error: " + errorThrown);
+        var errors = XMLHttpRequest.responseJSON.errors;
+        //var responseText = $.parseJSON(XMLHttpRequest.responseText);
+        //console.log(responseText);
+        console.log(errors);
+        if(errors.course_name){
+          $('#update-record [name=course_name]').removeClass('is-valid');
+          $('#update-record [name=course_name]').addClass('is-invalid');
+          $('#update-record #error-course-name').text(errors.course_name);
+        }
+        else{
+          $('#update-record [name=course_name]').removeClass('is-invalid');
+          $('#update-record [name=course_name]').addClass('is-valid');
+          $('#update-record #error-course-name').text('');
+        }
+
+        if(errors.description){
+          $('#update-record [name=course_description]').addClass('is-invalid');
+          $('#update-record [name=course_description]').removeClass('is-valid');
+          $('#update-record #error-description').text(errors.description);
+        }
+        else{
+          $('#update-record [name=course_description]').addClass('is-valid');
+          $('#update-record [name=course_description]').removeClass('is-invalid');
+          $('#update-record #error-description').text('');
+        }
+      }
     });
   });
+
+$("#update-record #btn-close").click(function() {
+  clearInputs("#update-record");
+});
+
+$("#add-record #btn-close").click(function() {
+  clearInputs("#add-record");
+});
+
+function clearInputs(id){
+  $(id + ' [name=course_name]').val('');
+  $(id + ' [name=course_description]').val('');
+
+  $(id + ' [name=course_name]').removeClass('is-valid');
+  $(id + ' [name=course_name]').removeClass('is-invalid');
+
+  $(id + ' [name=course_description]').removeClass('is-valid');
+  $(id + ' [name=course_description]').removeClass('is-invalid');
+ 
+  $(id + ' #error-course-name').html('');
+  $(id + ' #error-description').html('');
+  
+}
 </script>
 @endsection

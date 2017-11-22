@@ -153,6 +153,7 @@
             <label class="col-sm-2 col-form-label">Topic</label>
             <div class="col-sm-10">
               <input type="text" class="form-control" id="topic">
+              <span class="text-danger" id="error-topic"></span>
             </div>
           </div>
         </div>
@@ -340,10 +341,10 @@
         // console.log(responseText);
 
         $('#add-record [name=subj_code]').addClass('is-invalid');
-        $('#error-msg-subj-code').html(responseText.errors.subj_code);
+        $('#error-msg-subj-code').text(responseText.errors.subj_code);
 
         $('#add-record [name=subj_name]').addClass('is-invalid');
-        $('#error-msg-subj-name').html(responseText.errors.subj_name);
+        $('#error-msg-subj-name').text(responseText.errors.subj_name);
       } 
     });
   });
@@ -479,6 +480,7 @@
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
         var responseText = $.parseJSON(XMLHttpRequest.responseText);
+        console.log(responseText);
       } 
     });
   });
@@ -514,6 +516,7 @@
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
         var responseText = $.parseJSON(XMLHttpRequest.responseText);
+        console.log(responseText);
       } 
     });    
 
@@ -587,7 +590,11 @@
         topic_id = result.id;
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
+        var errors = $parseJSON(XMLHttpRequest.errors);
         var responseText = $.parseJSON(XMLHttpRequest.responseText);
+        console.log(responseText);
+        console.log(errors);
+        
       } 
     });
   }
@@ -608,15 +615,34 @@
         /* reload grid data */
         syllabi(result.syllabi);
 
+        // Reset Field
+        $('#update-record-topic #topic').removeClass('is-valid');
+        $('#update-record-topic #topic').removeClass('is-invalid');
+        $('#error-topic').text('');
+
         /* close modal */
         $('#mod-syllabus-update').modal('hide');
+        
 
         /* change selected subject cdoe value in case it is the update made */
         console.log(result.syllabi[0].subj_code);
         $('#add-record-topics #subject-syallabus').val(result.syllabi[0].subj_code);
       },
       error: function(XMLHttpRequest, textStatus, errorThrown){
+        var errors = XMLHttpRequest.responseJSON.errors;
         var responseText = $.parseJSON(XMLHttpRequest.responseText);
+        console.log(responseText);
+        if(errors.topic){
+          $('#update-record-topic #topic').addClass('is-invalid');
+          $('#update-record-topic #topic').removeClass('is-valid');
+          $('#error-topic').text(responseText.errors.topic);
+        }else{
+          $('#update-record-topic #topic').addClass('is-valid');
+          $('#update-record-topic #topic').removeClass('is-invalid');
+          $('#error-topic').text('');
+        }
+
+        
       }
     });
   });

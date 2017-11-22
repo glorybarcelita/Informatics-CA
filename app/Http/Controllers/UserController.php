@@ -35,7 +35,7 @@ class UserController extends Controller
         'last_name' => 'required',
         'school_index' => 'required|unique:users|numeric',
         'birthday' => 'required|date',
-        'contact_no' => 'required|numeric',
+        'contact_no' => 'required|numeric|digits:11',
         'address' => 'required',
         'email' => 'required|unique:users|email',
       ]);

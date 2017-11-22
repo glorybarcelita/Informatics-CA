@@ -14,6 +14,7 @@
             <label for="user-status" class="col-sm-2 col-form-label">ICA subject name</label>
               <div class="col-sm-10">
                 <input class="form-control" id="icasubj-name"> 
+                <span class="text-danger" id="error-icasubj-name"></span>
               </div>
           </div>
 
@@ -26,6 +27,7 @@
                     <option value="{{ $course->id }}">{{ $course->course_name }}</option>
                   @endforeach
                 </select>
+                <span class="text-danger" id="error-course"></span>
               </div>
           </div>
 
@@ -37,6 +39,7 @@
                     <option value="{{ $subject->id }}">{{ $subject->subj_code.' - '.$subject->subj_name }}</option>
                   @endforeach
                 </select>
+                <span class="text-danger" id="error-subject"></span>
               </div>
           </div>
 
@@ -44,6 +47,7 @@
               <label for="user-status" class="col-sm-2 col-form-label">Overview</label>
               <div class="col-sm-10">
                   <textarea rows="5" class="form-control" id="overview"></textarea>
+                  <span class="text-danger" id="error-overview"></span>
               </div>
           </div>
 
@@ -56,6 +60,7 @@
                     <option value="{{ $lecturer->id }}">{{ $lecturer->first_name.' '.$lecturer->last_name }}</option>
                   @endforeach
                 </select>
+                <span class="text-danger" id="error-lecturer"></span>
               </div>
           </div>
         </div>
@@ -97,12 +102,38 @@
         location.reload();
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
-        var responseText = $.parseJSON(XMLHttpRequest.responseText);
+        var errors = XMLHttpRequest.responseJSON.errors;
+        console.log(errors);
+        if(errors.ica_subj_name){ errorIndicator('add-ica-subj', 'icasubj-name', errors.ica_subj_name); }
+        else{ validIndicator('add-ica-subj', 'icasubj-name'); }
 
-        console.log(responseText);
+        if(errors.course){ errorIndicator('add-ica-subj', 'course', errors.ica_subj_name); }
+        else{ validIndicator('add-ica-subj', 'course'); }
+
+        if(errors.lecturer) { errorIndicator('add-ica-subj', 'lecturer', errors.lecturer); }
+        else{ validIndicator('add-ica-subj', 'lecturer'); }
+
+        if(errors.subjects) { errorIndicator('add-ica-subj', 'subjects', errors.subjects); }
+        else{ validIndicator('add-ica-subj', 'subjects'); }
+
+        if(errors.overview) { errorIndicator('add-ica-subj', 'overview', errors.overview); }
+        else{ validIndicator('add-ica-subj', 'overview'); }
+        
       } 
     });
   });
+  
+  function errorIndicator(action, field, error){
+    console.log(error);
+    $('#'+action + ' #' + field ).addClass("is-invalid");
+    $('#'+action + ' #' + field).removeClass("is-valid");
+    $('#'+action + ' #error-' + field).text(error);
+  }
+  function validIndicator(action, field){
+    $('#'+action + ' #' + field ).addClass("is-valid");
+    $('#'+action + ' #' + field).removeClass("is-invalid");
+    $('#'+action + ' #error-' + field).text('');
+  }
 
   $('#add-ica-subj #course').change(function(){
     $.ajax({
@@ -149,9 +180,14 @@
 
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
+        var errors = XMLHttpRequest.errors;
         var responseText = $.parseJSON(XMLHttpRequest.responseText);
-
         console.log(responseText);
+        console.log(errors);
+
+        if(errors.ica_subj_name){
+           $('#add-ica-subj #icasubj-name').addClass('is-invalid');
+        }
       } 
     });
   });

@@ -24,6 +24,10 @@ class SyllabusController extends Controller
     }
 
     public function update(Request $request){
+      $request->validate([
+        'subj_code' => 'required',
+        'topic' => 'required',
+      ]);
       $data = new Syllabus();
       return $data->updateSyllabus($request->id, $request->subj_code, $request->topic);
     }
