@@ -92,7 +92,7 @@
               <select class="form-control" id="subject-syallabus">
                 <option hidden>Select subjects</option>
                 @foreach($subjects as $subject)
-                  <option value="{{ $subject->subj_code }}">{{ $subject->subj_code.' - '.$subject->subj_name }}</option>
+                  <option value="{{ $subject->id }}">{{ $subject->subj_name }}</option>
                 @endforeach
               </select>
             </div>
@@ -102,7 +102,7 @@
             <div class="collapse mt-2" id="add-topic-form"">
               <div class="card">                
                 <div class="card-body">
-                    <div class="form-group row">
+                  <div class="form-group row">
                     <label for="inputPassword" class="col-sm-2 col-form-label">Topic</label>
                     <div class="col-sm-10">
                       <div id="input_topic_add">
@@ -144,7 +144,7 @@
               <select class="form-control" id="subject-syallabus">
                 <option hidden>Select subjects</option>
                 @foreach($subjects as $subject)
-                  <option value="{{ $subject->subj_code }}">{{ $subject->subj_code.' - '.$subject->subj_name }}</option>
+                  <option value="{{ $subject->id }}">{{ $subject->subj_name }}</option>
                 @endforeach
               </select>
             </div>
@@ -206,7 +206,6 @@
                         course_name: { type: "string" },
                         year_level: { type: "number" },
                         term_name: { type: "string" },
-                        subj_code: { type: "string" },
                         subj_name: { type: "string" },
                         id: { type: "string" },
                     }
@@ -217,7 +216,6 @@
                     { field: "course_name", aggregate: "count" },
                     { field: "year_level", aggregate: "count" },
                     { field: "term_name", aggregate: "count" },
-                    { field: "subj_code", aggregate: "count" },
                     { field: "subj_name", aggregate: "count" },                    
                 ],
             },   
@@ -226,7 +224,6 @@
                     { field: "course_name", aggregate: "count" },
                     { field: "year_level", aggregate: "count" },
                     { field: "term_name", aggregate: "count" },
-                    { field: "subj_code", aggregate: "count" },
                     { field: "subj_name", aggregate: "count" },                    
                 ],
             },
@@ -235,7 +232,6 @@
                     { field: "course_name", aggregate: "count" },
                     { field: "year_level", aggregate: "count" },
                     { field: "term_name", aggregate: "count" },
-                    { field: "subj_code", aggregate: "count" },
                     { field: "subj_name", aggregate: "count" },                    
                 ],              
             }],                                      
@@ -277,7 +273,6 @@
                 groupHeaderTemplate: "#= value # (Subjects: #= count#)",
             },
             {
-                field: "subj_code",
                 title: "Code",
                 width: 300,
             },
@@ -305,7 +300,6 @@
         course_id: $('#add-record [name=course]').val(),
         year_level: $('#add-record [name=year_level]').val(),
         term_id: $('#add-record [name=term]').val(), 
-        subj_code: $('#add-record [name=subj_code]').val(), 
         subj_name: $('#add-record [name=subj_name]').val(),
         lecturer: $('#add-record [name=lecturer_name]').val(),
       }, 
@@ -321,11 +315,9 @@
         $('#mod-add').modal('hide');
 
         /* clear value to inputs */
-        $('#add-record [name=subj_code]').val('');
         $('#add-record [name=subj_name]').val('');
 
-        $('#add-record [name=subj_code]').removeClass('is-invalid');
-        $('#error-msg-subj-code').empty();
+        
 
         $('#add-record [name=subj_name]').removeClass('is-invalid');
         $('#error-msg-subj-name').empty();
@@ -339,8 +331,7 @@
 
         // console.log(responseText);
 
-        $('#add-record [name=subj_code]').addClass('is-invalid');
-        $('#error-msg-subj-code').html(responseText.errors.subj_code);
+        
 
         $('#add-record [name=subj_name]').addClass('is-invalid');
         $('#error-msg-subj-name').html(responseText.errors.subj_name);
@@ -365,7 +356,6 @@
         $('#update-record [name=course]').val(result.course_id),
         $('#update-record [name=year_level]').val(result.year_level),
         $('#update-record [name=term]').val(result.term_id), 
-        $('#update-record [name=subj_code]').val(result.subj_code), 
         $('#update-record [name=subj_name]').val(result.subj_name),
 
         /* close modal */
@@ -390,7 +380,6 @@
         course_id: $('#update-record [name=course]').val(),
         year_level: $('#update-record [name=year_level]').val(),
         term_id: $('#update-record [name=term]').val(), 
-        subj_code: $('#update-record [name=subj_code]').val(), 
         subj_name: $('#update-record [name=subj_name]').val(),
       }, 
       success: function(result){
@@ -405,8 +394,6 @@
         $('#mod-update').modal('hide');
 
         /* clear inputs css errors */
-        $('#update-record [name=subj_code]').removeClass('is-invalid');
-        $('#update-record #error-msg-subj-code').empty();
 
         $('#update-record [name=subj_name]').removeClass('is-invalid');
         $('#update-record #error-msg-subj-name').empty();
@@ -420,8 +407,6 @@
 
         // console.log(responseText);
 
-        $('#update-record [name=subj_code]').addClass('is-invalid');
-        $('#update-record #error-msg-subj-code').html(responseText.errors.subj_code);
 
         $('#update-record [name=subj_name]').addClass('is-invalid');
         $('#update-record #error-msg-subj-name').html(responseText.errors.subj_name);
@@ -468,7 +453,7 @@
       url: "{{ url('topic/list') }}",
       method:"POST",
       data:{
-        subj_code: $('#add-record-topics #subject-syallabus').val(),
+        subj_name: $('#add-record-topics #subject-syallabus').val(),
       }, 
       success: function(result){
         /* show console logs */
@@ -495,7 +480,7 @@
       url: "{{ url('topic/store') }}",
       method:"POST",
       data:{
-        subj_code: $('#subject-syallabus').val(), 
+        subj_name: $('#subject-syallabus').val(), 
         topics: topics,
       }, 
       success: function(result){
@@ -581,7 +566,7 @@
         $('#mod-syllabus-update').modal('show');
 
         /* pass results to form */
-        $('#update-record-topic #subject-syallabus').val(result.subj_code);
+        $('#update-record-topic #subject-syallabus').val(result.subj_name);
         $('#update-record-topic #topic').val(result.topics);
         
         topic_id = result.id;
@@ -599,7 +584,7 @@
       method: "POST",
       data:{
         id: topic_id,
-        subj_code: $('#update-record-topic #subject-syallabus').val(),
+        subj_name: $('#update-record-topic #subject-syallabus').val(),
         topic: $('#update-record-topic #topic').val()
       },
       success: function(result){
@@ -612,8 +597,8 @@
         $('#mod-syllabus-update').modal('hide');
 
         /* change selected subject cdoe value in case it is the update made */
-        console.log(result.syllabi[0].subj_code);
-        $('#add-record-topics #subject-syallabus').val(result.syllabi[0].subj_code);
+        console.log(result.syllabi[0].subj_name);
+        $('#add-record-topics #subject-syallabus').val(result.syllabi[0].subj_name);
       },
       error: function(XMLHttpRequest, textStatus, errorThrown){
         var responseText = $.parseJSON(XMLHttpRequest.responseText);

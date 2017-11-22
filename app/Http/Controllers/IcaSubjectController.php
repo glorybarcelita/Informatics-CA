@@ -121,27 +121,27 @@ class IcaSubjectController extends Controller
                     ->where('ica_subject_id', $ica_subj_id)
                     ->get();
 
-    $subj_codes = [];
+    $subj_name = [];
     foreach ($ica_subj_subjs as $ica_subj_subj) {
-      $codes = Subject::select('subj_code')
+      $codes = Subject::select('subj_name')
               ->where('id', $ica_subj_subj->subj_id)
               ->first();
 
-      $subj_codes[] = [
-        'subj_code'=>$codes->subj_code
+      $subj_name[] = [
+        'subj_name'=>$codes->subj_name
       ];
     }
 
-    foreach ($subj_codes as $subj_code) {
-      $syllabus = Syllabus::select('id', 'subj_code', 'topics')
-              ->where('subj_code', '=', $subj_code['subj_code'])
+    foreach ($subj_name as $subj_name) {
+      $syllabus = Syllabus::select('id', 'subj_name', 'topics')
+              ->where('subj_name', '=', $subj_name['subj_name'])
               ->get();
 
       foreach ($syllabus as $sylla) {
         $topics[] = [
           'id'=>$sylla->id,
           'topics'=>$sylla->topics,
-          'subj_code'=>$sylla->subj_code,
+          'subj_name'=>$sylla->subj_name,
         ];
       }
     }
@@ -155,7 +155,7 @@ class IcaSubjectController extends Controller
     $ica_subjects_topics_id = DB::table('ica_subjects_topics')->insertGetId(
             [
               'ica_subj_id' => $request->ica_subj_id,
-              'topic_title' => $request->ica_topic_title,
+              'topic_title' => $request->topic_title,
               'note'=> $request->note
             ]
           );
@@ -171,12 +171,22 @@ class IcaSubjectController extends Controller
 
     $data = DB::table('ica_subjects_topics_syllabi')->insert($tagged_syllabus);
 
+    $links = [];
+
+    foreach ($request->links as $link) {
+      $links[]=[
+        'ica_subj_topic_id'=>$ica_subjects_topics_id,
+        'link'=>$link
+      ];
+    }
+
+    $link_vids = DB::table('ica_subjects_topic_videos')->insert($links);
     /* upload files */
   }
 
   public function lecturerIcaSubjectTopicSelect(Request $request){
     $data = DB::table('ica_subjects_topics_syllabi')->join('syllabi', 'ica_subjects_topics_syllabi.syllabus_id', '=', 'syllabi.id')
-            ->select('ica_subjects_topics_syllabi.*', 'syllabi.subj_code', 'syllabi.topics')
+            ->select('ica_subjects_topics_syllabi.*', 'syllabi.subj_name', 'syllabi.topics')
             ->where('ica_subjects_topics', $request->ica_subj_id)
             ->get();
 
@@ -188,5 +198,83 @@ class IcaSubjectController extends Controller
     $data->delete();
 
     return "success";
+  }
+
+  public function icasubjTopic($topic_id){
+    $data = DB::table('ica_subjects_topics')
+            ->select('id', 'ica_subj_id', 'topic_title', 'note')
+            ->where('id', $topic_id)
+            ->first();
+
+    $syllabi = DB::table('ica_subjects_topics_syllabi')
+              ->join('syllabi', 'ica_subjects_topics_syllabi.syllabus_id', 'syllabi.id')
+              ->select('syllabi.topics')
+              ->where('ica_subjects_topics_syllabi.ica_subjects_topics', $topic_id)
+              ->get();
+
+    $links = DB::table('ica_subjects_topic_videos')
+            ->select('id', 'link')
+            ->where('ica_subj_topic_id', $topic_id)
+            ->get();
+
+    $syllabus = DB::table('syllabi')
+                ->get();
+
+    return view('icaSubject.topics.index', ['topic'=>$data, 'syllabi'=>$syllabi, 'links'=>$links, 'topics'=>$syllabus]);
+  }
+
+  public function studentDashboard(){    
+    return view('student.index');
+  }
+
+  public function deleteVideo(Request $request){
+    $data = DB::table('ica_subjects_topic_videos')
+            ->where('id', $request->video_id)
+            ->delete();
+
+    return 'success';
+  }
+
+  public function editLecturerIcaTopic(Request $request){
+    $data = DB::table('ica_subjects_topics')
+            ->where('id', $request->ica_topic_id)
+            ->first();
+
+    $icaTopicSyllabi = DB::table('ica_subjects_topics_syllabi')
+                      ->join('syllabi', 'ica_subjects_topics_syllabi.syllabus_id', '=', 'syllabi.id')
+                      ->select('syllabi.*')
+                      ->where('ica_subjects_topics_syllabi.ica_subjects_topics', $request->ica_topic_id)
+                      ->get();
+    return ['icasubj_topic'=>$data, 'icasubj_topic_syllabi'=>$icaTopicSyllabi];
+  }
+
+  public function updateLecturerIcaTopic(Request $request){
+    $i = 0;
+    foreach ($request->syllabi as $syllabus) {
+      $data = DB::table('ica_subjects_topics_syllabi')
+              ->select('syllabus_id')
+              ->where('ica_subjects_topics', $request->ica_topic_id)
+              ->get();
+      
+      if(!$data[$i]->syllabus_id == $syllabus){
+        $syllabusDate = DB::table('ica_subjects_topics_syllabi')
+                        ->insert([
+                          'ica_subjects_topics'=>$request->ica_topic_id,
+                          'syllabus_id'=>$syllabus
+                        ]);
+
+        // return 'not matched';
+      }
+      $i++;
+    }
+
+    $updateTopic = DB::table('ica_subjects_topics')
+                    ->where('id', $request->ica_topic_id)
+                    ->update([
+                      'topic_title'=>$request->topic_tite,
+                      'note'=>$request->note
+                    ]);
+
+    return 'success';
   }
 }

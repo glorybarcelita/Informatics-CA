@@ -18,7 +18,6 @@ class CreateSubjectsTable extends Migration
             $table->integer('course_id');
             $table->integer('year_level');
             $table->integer('term_id');
-            $table->string('subj_code');
             $table->string('subj_name');
             $table->integer('syllabus_id')->nullable();
             $table->timestamps();

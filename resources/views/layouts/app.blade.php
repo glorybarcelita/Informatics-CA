@@ -13,6 +13,8 @@
     <!-- Styles -->
     <link href="{{ asset('vendor/bootstrap/dist/css/bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/stylehome.css') }}" rel="stylesheet">
+    
 
     @yield('css')
 </head>
@@ -22,6 +24,9 @@
     </div>
     <div class="container" style="margin-top: 80px; margin-bottom: 50px">
         @yield('content')
+    </div>
+    <div class="container-fluid" style="margin-top: 80px; margin-bottom: 50px">
+        @yield('content1')
     </div>
 
     <!-- Scripts -->

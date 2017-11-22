@@ -16,7 +16,7 @@ class CreateSyllabiTable extends Migration
         Schema::create('syllabi', function (Blueprint $table) {
             $table->increments('id');
             $table->longtext('topics');
-            $table->string('subj_code');
+            $table->string('subj_name');
             $table->timestamps();
         });
     }

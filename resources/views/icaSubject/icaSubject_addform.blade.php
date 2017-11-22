@@ -34,7 +34,7 @@
               <div class="col-sm-10">
                 <select multiple="multiple" data-placeholder="Select subjects..." class="form-control" id="subjects">
                   @foreach($subjects as $subject)
-                    <option value="{{ $subject->id }}">{{ $subject->subj_code.' - '.$subject->subj_name }}</option>
+                    <option value="{{ $subject->id }}">{{ $subject->subj_name }}</option>
                   @endforeach
                 </select>
               </div>
@@ -68,7 +68,7 @@
   </div>
 </div>
 
-@section('ica-subj-add-script')
+@section('ica-subj-add-script') 
 <script type="text/javascript">
   var subjects = $("#add-ica-subj #subjects").kendoMultiSelect().data("kendoMultiSelect");
 

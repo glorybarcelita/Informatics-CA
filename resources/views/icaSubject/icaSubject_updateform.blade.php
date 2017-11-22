@@ -113,7 +113,7 @@
         for (var i = 0; i < result.subjects.length; i++) {
           icaSubjSubjects.push(result.subjects[i].subj_id);
         }
-        multiselect.value(icaSubjSubjects); //select items which have value respectively "1" and "2"        
+        multiselect.value(icaSubjSubjects); //select items which have value respectively "1" and "2"
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
         var responseText = $.parseJSON(XMLHttpRequest.responseText);

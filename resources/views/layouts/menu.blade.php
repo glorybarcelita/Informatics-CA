@@ -1,5 +1,5 @@
-<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="{{ url('/') }}">ICA Project</a>
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-info">
+    <a class="navbar-brand" href="{{ url('/') }}"><img src="/img/icalogo.png"  width="auto" height="35px"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -9,6 +9,11 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{{ url('home') }}">Home <span class="sr-only">(current)</span></a>
             </li>
+             @if(Auth::user()->role_id == '3')            
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('lecturer/dashboard') }}">Dashboard <span class="sr-only">(current)</span></a>
+            </li>
+            @endif
             @if(Auth::user()->role_id == '2')            
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('lecturer/dashboard') }}">Dashboard <span class="sr-only">(current)</span></a>
