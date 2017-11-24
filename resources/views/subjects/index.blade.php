@@ -57,7 +57,7 @@
       <form id="update-record">
         <input type="text" name="user_id" style="display:none" value="{{ old('user_id') }}">
         <div class="modal-header">
-          <h5 class="modal-title" id="editUserModalLabel">Subject Details</h5>
+          <h5 class="modal-title" id="editUserModalLabel">Update Subject Details</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -67,6 +67,30 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary" id="btn-save">Apply Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{{-- delete subject details modal --}}
+<div class="modal fade" id="mod-delete" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form id="delete-record">
+        <input type="text" name="user_id" style="display:none" value="{{ old('user_id') }}">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editUserModalLabel">Delete Subject Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <span id="delete-msg"></span>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="btn-save">Delete Subject</button>
         </div>
       </form>
     </div>
@@ -257,7 +281,8 @@
                 field: "id",
                 title: "Actions",
                 width: 130,
-                template: '<center><button id="#= id #" class="btn btn-outline-success btn-sm" onclick="edit_subj(this.id)">Edit</button>',
+                template: '<button id="#= id #" class="btn btn-outline-success btn-sm" onclick="edit_subj(this.id)">Edit</button>&nbsp'+
+                          '<button id="#= id #" class="btn btn-outline-danger btn-sm" value="#= subj_name #" onclick="delete_subj(this.id, this.value)">Delete</button>',
             }, 
             {
                 hidden: true,
@@ -326,10 +351,10 @@
         $('#add-record [name=subj_name]').val('');
 
         $('#add-record [name=subj_code]').removeClass('is-invalid');
-        $('#error-msg-subj-code').empty();
+        $('#add-record #error-msg-subj-code').empty();
 
         $('#add-record [name=subj_name]').removeClass('is-invalid');
-        $('#error-msg-subj-name').empty();
+        $('#add-record #error-msg-subj-name').empty();
 
         /* refresh subj grid */
         $("#grid").data("kendoGrid").dataSource.read();
@@ -340,11 +365,23 @@
 
         // console.log(responseText);
 
-        $('#add-record [name=subj_code]').addClass('is-invalid');
-        $('#error-msg-subj-code').text(responseText.errors.subj_code);
+        if(responseText.errors.subj_code){
+          $('#add-record [name=subj_code]').addClass('is-invalid');
+          $('#add-record #error-msg-subj-code').html(responseText.errors.subj_code);
+        } 
+        else{
+          $('#add-record [name=subj_code]').removeClass('is-invalid');
+          $('#add-record #error-msg-subj-code').empty();
+        }
 
-        $('#add-record [name=subj_name]').addClass('is-invalid');
-        $('#error-msg-subj-name').text(responseText.errors.subj_name);
+        if(responseText.errors.subj_name){
+          $('#add-record [name=subj_name]').addClass('is-invalid');
+          $('#add-record #error-msg-subj-name').html(responseText.errors.subj_name);          
+        }
+        else{
+          $('#add-record [name=subj_name]').removeClass('is-invalid');
+          $('#add-record #error-msg-subj-name').empty();  
+        }
       } 
     });
   });
@@ -371,10 +408,15 @@
 
         /* close modal */
         $('#mod-update').modal('show');
+
+        $('#update-record [name=subj_code]').removeClass('is-invalid');
+        $('#update-record #error-msg-subj-code').empty();
+
+        $('#update-record [name=subj_name]').removeClass('is-invalid');
+        $('#update-record #error-msg-subj-name').empty();
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
         var responseText = $.parseJSON(XMLHttpRequest.responseText);
-
         // console.log(responseText);
       } 
     });
@@ -421,11 +463,23 @@
 
         // console.log(responseText);
 
-        $('#update-record [name=subj_code]').addClass('is-invalid');
-        $('#update-record #error-msg-subj-code').html(responseText.errors.subj_code);
+        if(responseText.errors.subj_code){
+          $('#update-record [name=subj_code]').addClass('is-invalid');
+          $('#update-record #error-msg-subj-code').html(responseText.errors.subj_code);
+        }   
+        else{
+          $('#update-record [name=subj_code]').removeClass('is-invalid');
+          $('#update-record #error-msg-subj-code').empty();
+        }
 
-        $('#update-record [name=subj_name]').addClass('is-invalid');
-        $('#update-record #error-msg-subj-name').html(responseText.errors.subj_name);
+        if(responseText.errors.subj_name){
+          $('#update-record [name=subj_name]').addClass('is-invalid');
+          $('#update-record #error-msg-subj-name').html(responseText.errors.subj_name);          
+        }
+        else{
+          $('#update-record [name=subj_name]').removeClass('is-invalid');
+          $('#update-record #error-msg-subj-name').empty(); 
+        }
       } 
     });
   });
@@ -643,6 +697,33 @@
         }
 
         
+      }
+    });
+  });
+
+  function delete_subj(id, subj_name){
+    $('#mod-delete').modal('show');
+    $('#delete-record #delete-msg').html('Are you sure you want to delete <strong>'+subj_name+'</strong> subject?');
+
+    subject_id = id;
+  }
+
+  $('#delete-record #btn-save').click(function(){
+    $.ajax({
+      headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+      url: "{{ url('subject/delete') }}",
+      method: "POST",
+      data:{
+        subject_id: subject_id,
+      },
+      success: function(result){
+        console.log(result);
+        $('#grid').data('kendoGrid').dataSource.read();
+        /* close modal */
+        $('#mod-delete').modal('hide');
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown){
+        var responseText = $.parseJSON(XMLHttpRequest.responseText);
       }
     });
   });

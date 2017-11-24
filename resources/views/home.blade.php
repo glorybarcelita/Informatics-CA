@@ -70,13 +70,13 @@
         </div>
         <div class="col-md-6">
           <h3>Explore & Learn</h3>
-          <p>is compose of subject/subjects from curriculum that registrar assigned to a lecturer. ICA subject is the main container of learning resources which are the topics, quiz and exam uploaded by lecturer then submit to registrar for approval of the content if it matches the subject syllabus.</p>
+          <p>ICA subject is the main container of learning resources such as leturer's note, embed video and some file attachment that student can access anytime.</p>
           <div class="d-flex flex-row">
             <div class="p-4 align-self-start">
               <i class="fa fa-check fa-black"></i>
             </div>
             <div class="p-4 align-self-end">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Incidunt, quaerat cupiditate quia voluptate voluptatum repellendus?
+              Helpful for lecturers that learning resources are in one place.
             </div>
           </div>
           <div class="d-flex flex-row">
@@ -97,14 +97,14 @@
 
 
   <!-- CREATE HEAD -->
-  <section id="create-head-section" class="bg-primary">
+  <section id="create-head-section" class="bg-info">
     <div class="container">
       <div class="row">
         <div class="col text-center">
           <div class="p-5">
             <h1 class="display-4">Create</h1>
             <p class="lead">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Atque ut perferendis nostrum, nulla facere quam modi eos vero magni consectetur.</p>
-            <a href="#" class="btn btn-outline-light">Find Out More</a>
+            <a href="#" class="btn btn-light">Find Out More</a>
           </div>
         </div>
       </div>

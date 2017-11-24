@@ -39,6 +39,7 @@ Route::group(['middleware'=>'auth'], function(){
   Route::post('subject/store', ['uses'=>'SubjectController@store']);
   Route::get('subject/edit', ['uses'=>'SubjectController@edit']);
   Route::post('subject/update', ['uses'=>'SubjectController@update']);
+  Route::post('subject/delete', ['uses'=>'SubjectController@delete']);
   Route::post('subject/by-course', ['uses'=>'SubjectController@subjByCourse']);
 
   Route::post('topic/list', ['uses'=>'SyllabusController@select']);
@@ -60,6 +61,12 @@ Route::group(['middleware'=>'auth'], function(){
   Route::get('lecturer/ica-subject/{ica_subj_id}', ['uses'=>'IcaSubjectController@lecturerIcaSubjectEdit']);
   Route::post('lecturer/ica-subject/topic/store', ['uses'=>'IcaSubjectController@lecturerIcaSubjectTopicStore']);
   Route::get('lecturer/ica-subject/topic/select', ['uses'=>'IcaSubjectController@lecturerIcaSubjectTopicSelect']);
+  Route::post('lecturer/ica-subject/topic/video-links', ['uses'=>'IcaSubjectController@storeVideoLinks']);
+  Route::post('lecturer/ica-subject/topic/syllabus/remove', ['uses'=>'IcaSubjectController@deleteTopicSyllabus']);
+
+  Route::get('ica-subject/topic/{ica_subj_id}/quiz', ['uses'=>'QuizController@index']);
+  Route::get('ica-subject/topic/quiz/{ica_subj_id}/select', ['uses'=>'QuizController@selectQuiz']);
+
   // Route::get('lecturer/dashboard', ['uses'=>'IcaSubjectController@studentDashboard']);
 
   Route::get('icasubject/topic/{topic_id}', ['uses'=>'IcaSubjectController@icasubjTopic']);

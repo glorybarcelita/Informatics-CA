@@ -208,7 +208,7 @@ class IcaSubjectController extends Controller
 
     $syllabi = DB::table('ica_subjects_topics_syllabi')
               ->join('syllabi', 'ica_subjects_topics_syllabi.syllabus_id', 'syllabi.id')
-              ->select('syllabi.topics')
+              ->select('syllabi.id', 'syllabi.topics')
               ->where('ica_subjects_topics_syllabi.ica_subjects_topics', $topic_id)
               ->get();
 
@@ -249,31 +249,51 @@ class IcaSubjectController extends Controller
   }
 
   public function updateLecturerIcaTopic(Request $request){
-    $i = 0;
     foreach ($request->syllabi as $syllabus) {
       $data = DB::table('ica_subjects_topics_syllabi')
               ->select('syllabus_id')
               ->where('ica_subjects_topics', $request->ica_topic_id)
-              ->get();
-      
-      if(!$data[$i]->syllabus_id == $syllabus){
-        $syllabusDate = DB::table('ica_subjects_topics_syllabi')
+              ->where('syllabus_id', $syllabus)
+              ->count();
+
+      if($data==0){
+        $syllabusData = DB::table('ica_subjects_topics_syllabi')
                         ->insert([
                           'ica_subjects_topics'=>$request->ica_topic_id,
                           'syllabus_id'=>$syllabus
                         ]);
-
-        // return 'not matched';
       }
-      $i++;
     }
-
     $updateTopic = DB::table('ica_subjects_topics')
                     ->where('id', $request->ica_topic_id)
                     ->update([
                       'topic_title'=>$request->topic_tite,
                       'note'=>$request->note
                     ]);
+
+    return 'succe DBss';
+  }
+
+  public function storeVideoLinks(Request $request){
+    $dataSet = [];
+
+    foreach ($request->links as $link) {
+      $dataSet[] = [
+        'ica_subj_topic_id' => $request->ica_topic_id,
+        'link' => $link,
+      ];
+    }
+
+    $data = DB::table('ica_subjects_topic_videos')->insert($dataSet);
+
+    return 'success';
+  }
+
+  public function deleteTopicSyllabus(Request $request){
+    $data = DB::table('ica_subjects_topics_syllabi')
+            ->where('ica_subjects_topics', '=', $request->topic_id)
+            ->where('syllabus_id', '=', $request->syllabus_id)
+            ->delete();
 
     return 'success';
   }

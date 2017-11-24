@@ -70,6 +70,13 @@ class SubjectController extends Controller
       return $data->subjectUpdate($request->subject_id, $request->course_id, $request->year_level, $request->term_id, $request->subj_code, $request->subj_name);        
     }
 
+    public function delete(Request $request){
+      $data = Subject::find($request->subject_id);
+      $data->delete();
+
+      return 'success';
+    }
+
     public function subjByCourse(Request $request){
       $data = Subject::where('course_id', $request->course_id)
             ->get();

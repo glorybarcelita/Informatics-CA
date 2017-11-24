@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="card-footer">
-              <button class="btn btn-outline-secondary" id="btn-quiz-{{ $ica_topic->id }}">Create Quiz</button>
+              <a href="{{ url('ica-subject/topic/').'/'.$ica_topic->id.'/quiz' }}" class="btn btn-outline-info" id="btn-edit-{{ $ica_topic->id }}">Quiz</a>
               <a href="{{ url('icasubject/topic/').'/'.$ica_topic->id }}" class="btn btn-outline-secondary" id="btn-edit-{{ $ica_topic->id }}">Open Topic</a>
               {{-- <button class="btn btn-outline-secondary">Attachments</button> --}}
             </div>
@@ -40,9 +40,6 @@
         </div>
     @endforeach
   </div>
-
-            <div class="form-group row">
-              <label for="" class="col-sm-2 col-form-label">Video Link</label>
   <!-- Modal -->
   <div class="modal fade" id="mod-add-ica-subj-topic" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -81,6 +78,68 @@
                   <span class="text-danger" id="error-ica-topic-syllabus"></span> 
                 </div>
             </div>
+            <div class="form-group row">
+              <label for="" class="col-sm-2 col-form-label">Video Link</label>
+              <div class="col-sm-10">
+                <div id="input_link_add">
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="links[]" placeholder="Topic video link">
+                    <span class="input-group-btn">
+                      <button class="btn btn-outline-primary add_link_control" type="button">Add</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="btn-save" onclick="addTopic()">Save changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+   <!-- Modal QUIZ -->
+  <div class="modal fade" id="mod-add-quiz" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <form id="add-ica-subj">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">ICA Topic</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <input class="form-control" name="quiz_id" id="quiz-id" value="{{ Route::input('ica_subj_id') }}" hidden>
+            <div class="form-group row">
+              <label for="ica-topic-title" class="col-sm-2 col-form-label">Topic Title</label>
+                <div class="col-sm-10">
+                  <input class="form-control" id="ica-topic-title" name="ica_topic_title">
+                  <span class="text-danger" id="error-ica-topic-title"></span> 
+                </div>
+            </div>
+            <div class="form-group row">
+              <label for="ica-topic-syllabus" class="col-sm-2 col-form-label">Syllabus</label>
+                <div class="col-sm-10">
+                  <select class="form-control" multiple="multiple" data-placeholder="Select subjects..."  id="ica-topic-syllabus" name="ica_topic_syllabus[]">
+                    @foreach($topics as $topic)
+                      <option value="{{ $topic['id'] }}">{{ $topic['subj_code'].' - '.$topic['topics'] }}</option>
+                    @endforeach
+                  </select>
+                  <span class="text-danger" id="error-ica-topic-syllabus"></span> 
+                </div>
+            </div>
+            <div class="form-group row">
+              <label for="ica-topic-syllabus" class="col-sm-2 col-form-label">Note</label>
+                <div class="col-sm-10">
+                  <textarea id="note" name="note" aria-label="note"></textarea>
+                  <span class="text-danger" id="error-ica-topic-syllabus"></span> 
+                </div>
+            </div>
+            <div class="form-group row">
               <div class="col-sm-10">
                 <div id="input_link_add">
                   <div class="input-group">
