@@ -117,7 +117,9 @@
       <div class="row">
         <div class="col-md-6">
             <h3>Create Your Passion</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur qui molestiae optio animi architecto, labore voluptatem dolor, excepturi vero doloribus quo quam reprehenderit aperiam temporibus eveniet consequuntur quidem ipsam ipsa.</p>
+            <p>make better 
+use of technology tools for instruction, and to help students
+ improve their technology skills</p>
             <div class="d-flex flex-row">
               <div class="p-4 align-self-start">
                 <i class="fa fa-check"></i>
