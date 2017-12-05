@@ -33,10 +33,6 @@ class UserController extends Controller
         'role' => 'required',
         'first_name' => 'required',
         'last_name' => 'required',
-        'school_index' => 'required|unique:users|numeric',
-        'birthday' => 'required|date',
-        'contact_no' => 'required|numeric|digits:11',
-        'address' => 'required',
         'email' => 'required|unique:users|email',
       ]);
 
@@ -46,10 +42,6 @@ class UserController extends Controller
               ucwords(strtolower($request->first_name)),
               ucwords(strtolower($request->middle_name)),
               ucwords(strtolower($request->last_name)),
-              $request->school_index,
-              $request->birthday,
-              $request->contact_no,
-              $request->address,
               $request->email
             );
     }
@@ -64,10 +56,6 @@ class UserController extends Controller
         'role' => 'required',
         'first_name' => 'required',
         'last_name' => 'required',
-        'school_index' => 'required|numeric',
-        'birthday' => 'required|date',
-        'contact_no' => 'required|numeric',
-        'address' => 'required',
         'email' => 'required|email',
       ]);
 
@@ -77,10 +65,6 @@ class UserController extends Controller
         ucwords(strtolower($request->first_name)),
         ucwords(strtolower($request->middle_name)),
         ucwords(strtolower($request->last_name)),
-        $request->school_index,
-        $request->birthday,
-        $request->contact_no,
-        $request->address,
         $request->email,
         $request->status,
         $request->user_id

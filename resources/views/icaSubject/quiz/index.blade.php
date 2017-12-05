@@ -219,6 +219,85 @@
               </div>
             </div>
             </div>
+
+            <div class="card mb-2">
+            <div class="card-body">
+              <div class="form-group row">
+                <label for="q4" class="col-sm-2 col-form-label">Question #4</label>
+                <div class="col-sm-10">
+                  <div class="form-group">
+                    <textarea type="text" class="form-control" id="q4"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon" id="basic-addon1">A.</span>
+                      <input type="text" class="form-control" placeholder="" id="q4-c1">
+                      <span class="input-group-addon">
+                        <input type="radio" name="q4-ans">
+                      </span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon" id="basic-addon1">B.</span>
+                      <input type="text" class="form-control" placeholder="" id="q4-c2">
+                      <span class="input-group-addon">
+                        <input type="radio" name="q4-ans">
+                      </span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon" id="basic-addon1">C.</span>
+                      <input type="text" class="form-control" placeholder="" id="q4-c3">
+                      <span class="input-group-addon">
+                        <input type="radio" name="q4-ans">
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <div class="form-group row">
+                <label for="q5" class="col-sm-2 col-form-label">Question #5</label>
+                <div class="col-sm-10">
+                  <div class="form-group">
+                    <textarea type="text" class="form-control" id="q5"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon" id="basic-addon1">A.</span>
+                      <input type="text" class="form-control" placeholder="" id="q5-c1">
+                      <span class="input-group-addon">
+                        <input type="radio" name="q5-ans">
+                      </span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon" id="basic-addon1">B.</span>
+                      <input type="text" class="form-control" placeholder="" id="q5-c2">
+                      <span class="input-group-addon">
+                        <input type="radio" name="q5-ans">
+                      </span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon" id="basic-addon1">C.</span>
+                      <input type="text" class="form-control" placeholder="" id="q5-c3">
+                      <span class="input-group-addon">
+                        <input type="radio" name="q5-ans">
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
           </div>
         </div>
         <div class="modal-footer">

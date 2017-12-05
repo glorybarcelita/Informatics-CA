@@ -73,6 +73,13 @@ Route::group(['middleware'=>'auth'], function(){
   Route::post('icasubject/topic/edit', ['uses'=>'IcaSubjectController@editLecturerIcaTopic']);
   Route::post('icasubject/topic/update', ['uses'=>'IcaSubjectController@updateLecturerIcaTopic']);
   Route::post('icasubject/topic/video/delete', ['uses'=>'IcaSubjectController@deleteVideo']);
+
+
+  Route::get('registrar/dashboard', ['uses'=>'DashboardController@registrarDashboard']);
+
+  
+
+
 });
 
 Auth::routes();

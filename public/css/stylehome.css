@@ -40,7 +40,7 @@
     font-size:25px;
   }
   .fa-black{
-    olor:#fff;
+    color:#fff;
     background:#333;
     padding:4px;
     border-radius: 5px;
@@ -49,9 +49,20 @@
 .font-white{
   color:#fff;
 }
+.fa-fontsize{
+   font-size:40px;
+}
 
 #explore-head-section{
   background:#333;
+}
+
+#footer{
+  background:#333;
+  color:#ffffff;
+  text-align:center;
+  padding:20px;
+  margin-top:20px;
 }
 
 

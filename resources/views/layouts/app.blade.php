@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'ICA') }}</title>
 
     <!-- Styles -->
     <link href="{{ asset('vendor/bootstrap/dist/css/bootstrap.css') }}" rel="stylesheet">
@@ -29,6 +29,11 @@
         @yield('content1')
     </div>
 
+    {{-- <footer id="footer">
+        <div>
+            <center><p class="my-4">Copyright ICA , (c) 2017 </p></center>
+        </div>
+    </footer> --}}
     <!-- Scripts -->
     <script src="{{ asset('vendor/bootstrap/assets/js/vendor/jquery-3.2.1.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/assets/js/vendor/popper.min.js') }}"></script>

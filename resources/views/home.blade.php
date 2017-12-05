@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content1')
-    
+
 {{--  HEADER --}}
 <div id="header">
   <div class="dark-overlay">
@@ -84,7 +84,7 @@
               <i class="fa fa-check fa-black"></i>
             </div>
             <div class="p-4 align-self-end">
-              Lorem, ip55sum dolor sit amet consectetur adipisicing elit. Incidunt, quaerat cupiditate quia voluptate voluptatum repellendus?
+              Learning Resources helps student review in their subject
             </div>
           </div>
         </div>
@@ -102,9 +102,9 @@
       <div class="row">
         <div class="col text-center">
           <div class="p-5">
-            <h1 class="display-4">Create</h1>
-            <p class="lead">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Atque ut perferendis nostrum, nulla facere quam modi eos vero magni consectetur.</p>
-            <a href="#" class="btn btn-light">Find Out More</a>
+            <h1 class="display-4">ICA</h1>
+            <p class="lead">The purpose of the study is to design and develop a web-based application that is intended to extend the learning experience of the students of Informatics International College - Cainta </p>
+            
           </div>
         </div>
       </div>
@@ -117,15 +117,14 @@
       <div class="row">
         <div class="col-md-6">
             <h3>Create Your Passion</h3>
-            <p>make better 
-use of technology tools for instruction, and to help students
- improve their technology skills</p>
+            <p>Make better use of technology tools for instruction, and to help students improve their technology skills</p>
             <div class="d-flex flex-row">
               <div class="p-4 align-self-start">
                 <i class="fa fa-check"></i>
               </div>
               <div class="p-4 align-self-end">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Incidunt, quaerat cupiditate quia voluptate voluptatum repellendus?
+                Informatics Comprehensive Assessment is tied to learning goals and standards. 
+
               </div>
             </div>
             <div class="d-flex flex-row">
@@ -133,7 +132,7 @@ use of technology tools for instruction, and to help students
                 <i class="fa fa-check"></i>
               </div>
               <div class="p-4 align-self-end">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Incidunt, quaerat cupiditate quia voluptate voluptatum repellendus?
+                Students can access learning resources that can help to enhance learning experience that promotes self-study habit and must own the assessment process by taking the comprehensive exam.
               </div>
             </div>
         </div>

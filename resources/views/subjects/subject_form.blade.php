@@ -33,13 +33,7 @@
       </select>
     </div>
   </div>
-  <div class="form-group row">
-  <label for="user-status" class="col-sm-2 col-form-label">Subject Code</label>
-    <div class="col-sm-10">
-      <input class="form-control" name="subj_code" />
-      <span class="text-danger" id="error-msg-subj-code"></span>
-    </div>
-  </div>
+ 
   <div class="form-group row">
   <label for="user-status" class="col-sm-2 col-form-label">Subject Name</label>
     <div class="col-sm-10">

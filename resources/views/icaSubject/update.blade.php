@@ -65,7 +65,7 @@
                 <div class="col-sm-10">
                   <select class="form-control" multiple="multiple" data-placeholder="Select subjects..."  id="ica-topic-syllabus" name="ica_topic_syllabus[]">
                     @foreach($topics as $topic)
-                      <option value="{{ $topic['id'] }}">{{ $topic['subj_code'].' - '.$topic['topics'] }}</option>
+                      <option value="{{ $topic['id'] }}">{{ $topic['topics'] }}</option>
                     @endforeach
                   </select>
                   <span class="text-danger" id="error-ica-topic-syllabus"></span> 
@@ -126,7 +126,7 @@
                 <div class="col-sm-10">
                   <select class="form-control" multiple="multiple" data-placeholder="Select subjects..."  id="ica-topic-syllabus" name="ica_topic_syllabus[]">
                     @foreach($topics as $topic)
-                      <option value="{{ $topic['id'] }}">{{ $topic['subj_code'].' - '.$topic['topics'] }}</option>
+                      <option value="{{ $topic['id'] }}">{{ $topic['topics'] }}</option>
                     @endforeach
                   </select>
                   <span class="text-danger" id="error-ica-topic-syllabus"></span> 
@@ -251,7 +251,7 @@
           // tagged_syllabus = tagged_syllabus + '<a href="#" class="font-weight-bold">#'+result[i].subj_code+' - '+result[i].topics+'</a> &nbsp';
 
           tagged_syllabus = tagged_syllabus+'<ul>'+
-                                              '<li>'+result[i].subj_code+' - '+result[i].topics+'</li>'+         
+                                              '<li>'+result[i].subj_name+' - '+result[i].topics+'</li>'+         
                                             '</ul>';
 
           $('#syllabus-container'+result[i].ica_subjects_topics).html(tagged_syllabus);

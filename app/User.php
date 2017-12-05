@@ -29,17 +29,13 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function storeUser($role, $fname, $mi, $lname, $index, $bday, $contact_no, $address, $email){
+    public function storeUser($role, $fname, $mi, $lname, $email){
         $data = new User;
         $data->role_id = $role;
         $data->activated = 'true';
         $data->first_name = $fname;
         $data->middle_name = $mi;
         $data->last_name = $lname;
-        $data->school_index = $index;
-        $data->birthday = $bday;
-        $data->contact_no = $contact_no;
-        $data->address = $address;
         $data->email = $email;
         $data->password = bcrypt('secret');
         
@@ -55,17 +51,13 @@ class User extends Authenticatable
         return $data;
     }
 
-    public function updateUser($role, $fname, $mi, $lname, $index, $bday, $contact_no, $address, $email, $activated, $id){
+    public function updateUser($role, $fname, $mi, $lname, $email, $activated, $id){
         $data = User::find($id);
         $data->role_id = $role;
         $data->activated = $activated;
         $data->first_name = $fname;
         $data->middle_name = $mi;
         $data->last_name = $lname;
-        $data->school_index = $index;
-        $data->birthday = $bday;
-        $data->contact_no = $contact_no;
-        $data->address = $address;
         $data->email = $email;
         
         if($data->update()){

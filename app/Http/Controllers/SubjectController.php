@@ -18,9 +18,9 @@ class SubjectController extends Controller
       ->where('status', 'true')
       ->get();
 
-      $subjects_list = Subject::select('id', 'subj_code', 'subj_name')
-                      ->groupBy('subj_code')
-                      ->orderBy('subj_code')
+      $subjects_list = Subject::select('id','subj_name')
+                      ->groupBy('subj_name')
+                      ->orderBy('subj_name')
                       ->get();
 
       $terms = Term::get();
@@ -46,13 +46,12 @@ class SubjectController extends Controller
 
     public function store(Request $request){
       $this->validate($request,[
-        'subj_code' => 'required',
         'subj_name' => 'required',
       ]);
 
       // return $request->all();
       $data = new Subject();
-      return $data->subjectStore($request->course_id, $request->year_level, $request->term_id, $request->subj_code, $request->subj_name);
+      return $data->subjectStore($request->course_id, $request->year_level, $request->term_id, $request->subj_name);
     }
 
     public function edit(Request $request){
@@ -62,12 +61,11 @@ class SubjectController extends Controller
 
     public function update(Request $request){      
       $this->validate($request,[
-        'subj_code' => 'required',
         'subj_name' => 'required',
       ]);
 
       $data = new Subject();
-      return $data->subjectUpdate($request->subject_id, $request->course_id, $request->year_level, $request->term_id, $request->subj_code, $request->subj_name);        
+      return $data->subjectUpdate($request->subject_id, $request->course_id, $request->year_level, $request->term_id, $request->subj_name);        
     }
 
     public function delete(Request $request){

@@ -138,10 +138,6 @@
           $('[name=first_name]').val(result.first_name);
           $('[name=middle_name]').val(result.middle_name);
           $('[name=last_name]').val(result.last_name);
-          $('[name=school_index]').val(result.school_index);
-          $('[name=birthday]').val(result.birthday);
-          $('[name=contact_no]').val(result.contact_no);
-          $('[name=address]').val(result.address);
           $('[name=email]').val(result.email);
           $('[name=status]').val(result.activated);
 

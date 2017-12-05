@@ -1,5 +1,5 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-info">
-    <a class="navbar-brand" href="{{ url('/') }}"><img src="/img/icalogo.png"  width="auto" height="35px"></a>
+    <a class="navbar-brand" href="{{ url('/home') }}"><img src="/img/icalogo.png"  width="auto" height="35px"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -20,21 +20,29 @@
             </li>
             @endif
             @if(Auth::user()->role_id == '1')
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Administrator
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="{{ url('course/list') }}">Courses <span class="sr-only">(current)</span></a>
-                    <a class="dropdown-item" href="{{ url('subject/list') }}">Subjects <span class="sr-only">(current)</span></a>
-                    <a class="dropdown-item" href="{{ url('user/list') }}">Users <span class="sr-only">(current)</span></a>
-                    <a class="dropdown-item" href="{{ url('ica-subject/list') }}">ICA Subject <span class="sr-only">(current)</span></a>
-                
-                </div>                
-            </li>
+           
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('registrar/dashboard') }}">Dashboard <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('course/list') }}">Courses <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('subject/list') }}">Subjects <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('user/list') }}">Users <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="{{ url('ica-subject/list') }}">ICA Subject <span class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
+                               
+            
             @endif
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <img src="https://www.sparklabs.com/forum/styles/comboot/theme/images/default_avatar.jpg" class="rounded-circle" style="width: 20px; height: 20px" alt="Avatar"/> {{ Auth::user()->first_name }}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
