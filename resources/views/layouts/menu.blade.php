@@ -9,15 +9,37 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{{ url('home') }}">Home <span class="sr-only">(current)</span></a>
             </li>
+            @if(Auth::user()->role_id == '4')   
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('lecturer/dashboard') }}">Dashboard <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('ica-subject/list') }}">ICA Subject <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>        
+            
+            @endif
+
              @if(Auth::user()->role_id == '3')            
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('lecturer/dashboard') }}">Dashboard <span class="sr-only">(current)</span></a>
             </li>
             @endif
-            @if(Auth::user()->role_id == '2')            
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url('lecturer/dashboard') }}">Dashboard <span class="sr-only">(current)</span></a>
-            </li>
+            @if(Auth::user()->role_id == '2')   
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('lecturer/dashboard') }}">Dashboard <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('achievers-wall') }}">Achiever's <span class="sr-only">(current)</span></a>
+                    </li>
+
+                     <li class="nav-item">
+                        <a class="nav-link" href="{{ url('lecturer/reports') }}">Reports <span class="sr-only">(current)</span></a>
+                    </li>
+
+                </ul>
             @endif
             @if(Auth::user()->role_id == '1')
            
@@ -35,7 +57,7 @@
                         <a class="nav-link" href="{{ url('user/list') }}">Users <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="{{ url('ica-subject/list') }}">ICA Subject <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="{{ url('user/list') }}">Reports <span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
                                
@@ -46,6 +68,9 @@
                   <img src="https://www.sparklabs.com/forum/styles/comboot/theme/images/default_avatar.jpg" class="rounded-circle" style="width: 20px; height: 20px" alt="Avatar"/> {{ Auth::user()->first_name }}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+
+                    <center><h6>ROLE HERE</h6></center>
+                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ url('change-password') }}">Change Password</a>
                     <a class="dropdown-item" href="{{ route('logout') }}"
                         onclick="event.preventDefault();

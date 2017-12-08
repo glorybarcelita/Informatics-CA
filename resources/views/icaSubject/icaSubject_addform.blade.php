@@ -19,20 +19,9 @@
           </div>
 
           <div class="form-group row">
-            <label for="user-status" class="col-sm-2 col-form-label">Course</label>
-              <div class="col-sm-10">
-                <select class="form-control" id="course">
-                  <option value hidden>Select course</option>
-                  @foreach($courses as $course)
-                    <option value="{{ $course->id }}">{{ $course->course_name }}</option>
-                  @endforeach
-                </select>
-                <span class="text-danger" id="error-course"></span>
-              </div>
-          </div>
+            <label for="user-status" class="col-sm-2 col-form-label">Subjects <i class="fa fa-info-circle"></i> </label> 
+            
 
-          <div class="form-group row">
-            <label for="user-status" class="col-sm-2 col-form-label">Subjects</label>
               <div class="col-sm-10">
                 <select multiple="multiple" data-placeholder="Select subjects..." class="form-control" id="subjects">
                   @foreach($subjects as $subject)
@@ -41,6 +30,7 @@
                 </select>
                 <span class="text-danger" id="error-subject"></span>
               </div>
+
           </div>
 
           <div class="form-group row">
@@ -52,7 +42,7 @@
           </div>
 
           <div class="form-group row">
-              <label for="user-status" class="col-sm-2 col-form-label">Lecturer</label>
+              <label for="user-status" class="col-sm-2 col-form-label">Assigned Lecturer</label>
               <div class="col-sm-10">
                 <select class="form-control" id="lecturer">
                   <option value hidden>Select lecturer</option>
@@ -63,6 +53,22 @@
                 <span class="text-danger" id="error-lecturer"></span>
               </div>
           </div>
+
+           <div class="form-group row">
+            <label for="user-status" class="col-sm-2 col-form-label">Related Lecturer</label>
+              <div class="col-sm-10">
+                <select class="form-control" id="course">
+                  <option value hidden>Select course</option>
+                   @foreach($lecturers as $lecturer)
+                    <option value="{{ $lecturer->id }}">{{ $lecturer->first_name.' '.$lecturer->last_name }}</option>
+                  @endforeach
+                </select>
+                <span class="text-danger" id="error-course"></span>
+              </div>
+          </div>
+
+
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

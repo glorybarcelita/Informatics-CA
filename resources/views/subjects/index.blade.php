@@ -116,7 +116,7 @@
               <select class="form-control" id="subject-syallabus">
                 <option hidden>Select subjects</option>
                 @foreach($subjects as $subject)
-                  <option value="{{$subject->subj_name }}</option>
+                  <option value="{{$subject->subj_name }}"></option>
                 @endforeach
               </select>
             </div>

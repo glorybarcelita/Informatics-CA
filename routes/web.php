@@ -77,8 +77,14 @@ Route::group(['middleware'=>'auth'], function(){
 
   Route::get('registrar/dashboard', ['uses'=>'DashboardController@registrarDashboard']);
 
+  Route::get('/achievers-wall', ['uses'=>'AchieversWallController@index']);
+  Route::get('lecturer/exam', ['uses'=>'ExamController@index']);
+  Route::get('lecturer/reports', ['uses'=>'ReportsController@lecturerReport']);
   
 
+
+
+  Route::get('/user/list', ['uses'=>'UserController@index']);
 
 });
 

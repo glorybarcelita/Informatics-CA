@@ -26,7 +26,7 @@
         <div class="modal-body">
           <div class="card mb-2">
             <div class="card-body">
-              <div class="form-group row">
+              {{-- <div class="form-group row">
                 <label for="q1" class="col-sm-2 col-form-label">Question #1</label>
                 <div class="col-sm-10">
                   <div class="form-group">
@@ -299,14 +299,67 @@
             </div>
             </div>
           </div>
-        </div>
+        </div> --}}
+
+         
+            
+                  <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-2 col-form-label">Topic</label>
+                    <div class="col-sm-10">
+                      <div id="input_question_add">
+                        <div class="input-group">
+                          <textarea type="text" class="form-control mr-5" name="topics[]" placeholder="Subject topic"></textarea>
+                          
+                          <span class="input-group-btn">
+                            <button class="btn btn-outline-primary add_topic_control" type="button">Add</button>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+               {{-- Choices --}}
+                <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon" id="basic-addon1">A.</span>
+                      <input type="text" class="form-control" placeholder="" id="">
+                      <span class="input-group-addon">
+                        <input type="radio" name="q3-ans">
+                      </span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon" id="basic-addon1">B.</span>
+                      <input type="text" class="form-control" placeholder="" id="">
+                      <span class="input-group-addon">
+                        <input type="radio" name="q3-ans">
+                      </span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon" id="basic-addon1">C.</span>
+                      <input type="text" class="form-control" placeholder="" id="">
+                      <span class="input-group-addon">
+                        <input type="radio" name="q3-ans">
+                      </span>
+                    </div>
+                  </div>
+               
+              
+              <div class="card-footer" align="center">
+                  <button type="button" class="btn btn-outline-danger" id="btn-reset-topics">Reset</button>
+                  <button type="button" class="btn btn-outline-success" id="btn-save-topics">Submit</button>
+                </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          
         </div>
       </div>
     </div>
   </div>
+
+
 @endsection
 
 @section('script')
@@ -349,5 +402,58 @@
   $("#btn-new-quiz").click(function(){
     $('#mod-add').modal('show');
   });
+
+// dynamic add question
+  var questionContainer = $('#input_question_add'); //Input field wrapper
+  var addQuestion = $('.add_topic_control'); //Add button selector
+  $(addQuestion).click(function(){ //Once add button is clicked
+    $(questionContainer).append(
+      '<div class="remove_this">'+
+        '<br>'+
+        '<div class="input-group">'+
+          ' <textarea type="text" class="form-control mr-5" name="topics[]" placeholder="Subject topic"></textarea>'+
+          '<span class="input-group-btn">'+
+            '<button class="btn btn-danger remove_button" type="button">'+
+              'Remove'+
+            '</button>'+
+          '</span>'+
+        '</div>'+
+      '</div>'); 
+
+    //   '<div class="form-group">'+
+    //   '<div class="input-group">'
+    //     '<span class="input-group-addon" id="basic-addon1">A.</span>'+
+    //     '<input type="text" class="form-control" placeholder="" id="">'+
+    //     '<span class="input-group-addon">'+
+    //       '<input type="radio" name="q3-ans">'+
+    //     '</span>'+
+    //   '</div>'+
+    // '</div>'+
+    // '<div class="form-group">'+
+    //   '<div class="input-group">'+
+    //     '<span class="input-group-addon" id="basic-addon1">B.</span>'+
+    //     '<input type="text" class="form-control" placeholder="" id="">'+
+    //     '<span class="input-group-addon">'+
+    //       '<input type="radio" name="q3-ans">'+
+    //     '</span>'+
+    //   '</div>'+
+    // '</div>'+
+    // '<div class="form-group">'+
+    //   '<div class="input-group">'+
+    //     '<span class="input-group-addon" id="basic-addon1">C.</span>'+
+    //     '<input type="text" class="form-control" placeholder="" id="">'+
+    //     '<span class="input-group-addon">'+
+    //       '<input type="radio" name="q3-ans">'+
+    //     '</span>'+
+    //   '</div>'+
+    // '</div>');
+
+  });
+  questionContainer.on('click', '.remove_button', function(e){ //Once remove button is clicked
+    e.preventDefault();
+    $(this).closest('.remove_this').remove(); //Remove field html
+  });
+
+
 </script>
 @endsection

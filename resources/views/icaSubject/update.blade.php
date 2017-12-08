@@ -15,8 +15,9 @@
   <p class="lead">
     {{ $ica_subject->overview }}
   </p>
-  <button class="btn btn-outline-primary mt-3 " id="btn-add-ica-subj-topic">Add ICA Subject Topic</button>
-  <button class="btn btn-outline-primary mt-3 " id="btn-add-ica-subj-topic">Add ICA Subject Exam</button>
+  <button class="btn btn-outline-primary mt-3 " id="btn-add-ica-subj-topic" >Add ICA Subject Topic</button>
+<a href="{{ url('lecturer/exam')}}" class="btn btn-outline-primary mt-3">Add ICA Exam</a>
+
   <div class="row mt-3">
     @foreach($ica_topics as $ica_topic)
         <div class="col-md-4 my-3">
